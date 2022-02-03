@@ -12,6 +12,6 @@
 
 (defn create
   [filename]
-  (let [p (.join path config/root-dir "assets" "icons" "png" filename)]
-    (js/console.log p)
-    (.createFromPath electron/NativeImage p)))
+  (some->> filename
+           (.join path config/root-dir "assets" "icons" "png")
+           (.createFromPath electron/NativeImage)))

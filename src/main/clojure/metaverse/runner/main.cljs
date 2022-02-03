@@ -4,26 +4,11 @@
     [metaverse.runner.config :as config]
     [metaverse.runner.menu :as menu]
     [metaverse.runner.positioner :as positioner]
-    [metaverse.runner.reporter :as reporter]
     [metaverse.runner.tray :as tray]
     [metaverse.runner.window :as window]))
 
 
 (declare mount)
-
-
-;; FIXME: [2022-02-02, ilshat@sultanov.team]
-;; - добавить :opencollective :url в package.json
-;; - добавить иконки
-;; - закоммитить все и отправить в гит
-;; - нарисовать лого? metaverse
-;; - настроить auto updater?
-;; - настроить bb tasks
-;; - подключить шрифт FiraCode
-;; - проверить как можно запустить npm run repl и в конце дождавшись билда main.js запустить electron:watch
-;; - проверить как можно сделать electron:watch
-;; - проверить почему ругается tailwind
-;; - проверить почему стили подгружаются только после повторного билда
 
 
 ;;

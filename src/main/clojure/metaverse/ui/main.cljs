@@ -2,23 +2,16 @@
   (:require
     [goog.dom :as gdom]
     [re-frame.core :as rf]
-    [reagent.core :refer [atom]]
     [reagent.dom :as dom]))
-
-
-(enable-console-print!)
-
-(defonce state (atom 0))
 
 
 (defn app
   []
-  [:div {:class "flex "}
-   [:div {:class "flex-1 bg-slate-100"}
-    "hot reload test"]
-   [:div {:class "flex-1 bg-green-500"}
-    [:img {:src "assets/images/logotype.black.svg"
-           :class "border-2 border-rose-500"}]]])
+  [:div {:class "flex"}
+   [:div {:class "flex-1"}
+    ""]
+   [:div {:class "flex-1"}
+    [:img {:src "assets/images/logotype.black.svg"}]]])
 
 
 (defn setup-tools
