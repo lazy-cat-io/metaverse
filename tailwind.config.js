@@ -1,9 +1,8 @@
 module.exports = {
-  darkMode: 'class',
   content:
     process.env.NODE_ENV === "production"
-      ? ["public/assets/js/app.js"]
-      : ["public/assets/js/cljs-runtime/*.js"],
+      ? ["./public/**/*.html", "./public/assets/js/main.js"]
+      : ["./public/**/*.html", "./public/assets/js/main.js", "./public/assets/js/cljs-runtime/*.js"],
   theme: {
     extend: {},
   },
