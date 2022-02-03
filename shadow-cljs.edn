@@ -1,0 +1,51 @@
+{:deps           {:aliases [:develop :test :nop]}
+
+ :nrepl          {:init-ns user}
+
+ :build-defaults {:closure-defines
+                  {goog.DEBUG                           true
+                   metaverse.ui.config/version          #shadow/env "VERSION"
+                   metaverse.ui.config/build-number     #shadow/env "BUILD_NUMBER"
+                   metaverse.ui.config/build-timestamp  #shadow/env "BUILD_TIMESTAMP"
+                   metaverse.ui.config/git-url          #shadow/env "GIT_URL"
+                   metaverse.ui.config/git-branch       #shadow/env "GIT_BRANCH"
+                   metaverse.ui.config/git-sha          #shadow/env "GIT_SHA"
+                   metaverse.ui.config/logger-level     "error"
+                   metaverse.ui.config/default-language "en"}
+
+                  :compiler-options
+                  {:output-feature-set :es2018}}
+
+ :builds         {:runner {:target    :node-script
+                           :output-to "public/main.js"
+                           :main      metaverse.runner.main/init!}
+
+                  :app    {:target     :browser
+                           :output-dir "public/assets/js"
+                           :asset-path "js"
+
+                           :modules    {:app {:init-fn metaverse.ui.main/init!}}
+
+                           :devtools   {:http-port 3000
+                                        :http-root "public/"
+                                        :preloads  [devtools.preload
+                                                    day8.re-frame-10x.preload]}
+
+                           :dev        {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                             day8.re-frame.tracing/trace-enabled? true
+                                                                             metaverse.ui.config/logger-level     "trace"}}}
+
+                           :release    {}}
+
+                  :test   {:target   :browser-test
+                           :test-dir "public/test"
+
+                           :devtools {:http-port 3001
+                                      :http-root "public/test"}
+
+                           :dev      {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                           day8.re-frame.tracing/trace-enabled? true
+                                                                           metaverse.ui.config/logger-level     "trace"}}}}
+
+                  :ci     {:target    :karma
+                           :output-to "public/test/assets/ci.js"}}}
