@@ -1,0 +1,23 @@
+image:https://img.shields.io/github/license/sultanov-team/metaverse[license,link=license]
+
+image:public/assets/images/logotype.black.svg[logotype,400]
+
+'''
+
+== The Metaverse of Clojurians
+
+=== Motivation
+
+TBD
+
+=== Installation
+
+TBD
+
+=== Special thanks
+
+TBD
+
+=== License
+
+Copyright © 2022 sultanov.team
