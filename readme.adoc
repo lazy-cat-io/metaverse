@@ -1,4 +1,4 @@
-image:https://img.shields.io/github/license/sultanov-team/metaverse[license,link=license]
+image:https://img.shields.io/github/license/sultanov-team/metaverse?label=license[license,link=license]
 
 image:public/assets/images/logotype.black.svg[logotype,400]
 
