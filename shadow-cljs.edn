@@ -2,6 +2,9 @@
 
  :nrepl          {:init-ns user}
 
+ :dev-http       {3000 "public/"
+                  3001 "public/test/"}
+
  :build-defaults {:closure-defines
                   {goog.DEBUG                           true
                    metaverse.ui.config/version          #shadow/env "VERSION"
@@ -24,12 +27,10 @@
                            :output-dir "public/assets/js"
                            :asset-path "js"
 
-                           :modules    {:app {:init-fn metaverse.ui.main/init!}}
+                           :modules    {:main {:init-fn metaverse.ui.main/init!}}
 
-                           :devtools   {:http-port 3000
-                                        :http-root "public/"
-                                        :preloads  [devtools.preload
-                                                    day8.re-frame-10x.preload]}
+                           :devtools   {:preloads [devtools.preload
+                                                   day8.re-frame-10x.preload]}
 
                            :dev        {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
                                                                              day8.re-frame.tracing/trace-enabled? true
@@ -40,8 +41,7 @@
                   :test   {:target   :browser-test
                            :test-dir "public/test"
 
-                           :devtools {:http-port 3001
-                                      :http-root "public/test"}
+                           :devtools {}
 
                            :dev      {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
                                                                            day8.re-frame.tracing/trace-enabled? true
