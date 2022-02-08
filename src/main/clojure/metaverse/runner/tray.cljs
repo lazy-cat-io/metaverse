@@ -4,6 +4,7 @@
     [metaverse.runner.electron :as electron]
     [metaverse.runner.icon :as icon]
     [metaverse.runner.menu :as menu]
+    [metaverse.runner.path :as path]
     [metaverse.runner.window :as window]))
 
 
@@ -41,12 +42,12 @@
 
 (defn tray
   ([] (electron/Tray. (icon/create-empty)))
-  ([filename] (electron/Tray. (icon/create filename))))
+  ([icon-path] (electron/Tray. (icon/create-from-path icon-path))))
 
 
 (defn create-tray
   [^js/electron.BrowserWindow window]
-  (let [tray         (tray "24x24.png")
+  (let [tray         (tray (path/join path/icons-dir "png" "24x24.png"))
         context-menu (create-context-menu window)]
     (set-context-menu tray context-menu)
     (set-instance! tray)))
