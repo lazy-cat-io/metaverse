@@ -27,11 +27,10 @@
   (tray/destroy!))
 
 
-(defn ready-to-show
+(defn ready-to-show-handler
   [window tray]
   (fn []
-    (positioner/set-position! window tray)
-    (window/open-devtools window)))
+    (positioner/set-position! window tray)))
 
 
 (defn window-all-closed-handler
@@ -54,7 +53,7 @@
     (window/set-instance! window)
     (window/load-app window)
     (window/on :closed window closed-handler)
-    (window/on :ready-to-show window (ready-to-show window tray))))
+    (window/on :ready-to-show window (ready-to-show-handler window tray))))
 
 
 
