@@ -5,5 +5,7 @@
 
 
 (defn cljs-repl
-  []
-  (shadow/repl :app))
+  ([]
+   (cljs-repl :app))
+  ([build-id]
+   (shadow/repl build-id)))
