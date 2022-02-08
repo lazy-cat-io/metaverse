@@ -4,7 +4,9 @@
            org.clojure/clojurescript {:mvn/version "1.11.4"}
            reagent/reagent           {:mvn/version "1.1.0"
                                       :exclusions  [cljsjs/react cljsjs/react-dom cljsjs/react-dom-server]}
-           re-frame/re-frame         {:mvn/version "1.2.0"}}
+           re-frame/re-frame         {:mvn/version "1.2.0"}
+           lambdaisland/fetch        {:mvn/version "1.0.41"}
+           com.lambdaisland/glogi    {:mvn/version "1.1.144"}}
 
  :aliases {:develop          {:extra-paths ["src/develop/clojure" "src/develop/resources"]
                               :extra-deps  {binaryage/devtools         {:mvn/version "1.0.4"}
