@@ -34,11 +34,6 @@
   (load-url window (str "file://" config/root-dir "/index.html")))
 
 
-(defn open-devtools
-  [^js/electron.BrowserWindow window]
-  (.. window -webContents (-openDevTools)))
-
-
 (defn on
   [event ^js/electron.BrowserWindow window handler]
   (.on window (name event) handler))
