@@ -24,5 +24,7 @@ target
 build.edn
 *.iml
 
-!.env
+.env.local
+.env
+!.env.example
 !.envrc
