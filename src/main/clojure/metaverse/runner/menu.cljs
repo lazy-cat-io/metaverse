@@ -1,7 +1,9 @@
 (ns metaverse.runner.menu
   (:require
+    [metaverse.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.runner.electron :as electron]))
+    [metaverse.runner.electron :as electron]
+    [metaverse.runner.window :as window]))
 
 
 (defn set-application-menu
@@ -15,13 +17,17 @@
 
 
 (defn create-menu
-  [_window]
+  [window]
   (build-from-template
-    [{:label   config/window-title
-      :submenu [{:role "about"}
-                {:type "separator"}
-                {:role "hide"}
-                {:role "hideOthers"}
-                {:role "unhide"}
-                {:type "separator"}
-                {:role "quit"}]}]))
+    [{:label   config/title
+      :submenu (cond-> [{:role "about"}
+                        {:type "separator"}
+                        {:role "hide"}
+                        {:role "hideOthers"}
+                        {:role "unhide"}]
+                 env/develop? (conj {:type "separator"}
+                                    {:role        "Toggle DevTools"
+                                     :accelerator "Alt+CommandOrControl+I"
+                                     :click       #(window/toggle-devtools window)})
+                 :always (conj {:type "separator"}
+                               {:role "quit"}))}]))
