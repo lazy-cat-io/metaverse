@@ -1,20 +1,14 @@
-(ns metaverse.runner.config)
+(ns metaverse.runner.config
+  (:require
+    ["os" :as os]
+    [metaverse.env :as env]))
 
 
 ;;
-;; Application options
+;; System info
 ;;
 
-(def ^:const company-name "@team.sultanov")
-(def ^:const product-name "metaverse")
-
-
-;;
-;; Refs
-;;
-
-(defonce *window (atom nil))
-(defonce *tray (atom nil))
+(def username (.. os (userInfo) -username))
 
 
 
@@ -23,7 +17,12 @@
 ;;
 
 (def ^:const root-dir js/__dirname)
-(def ^:const index-url (str "file://" root-dir "/index.html"))
+
+
+(def ^:const index-url
+  (if env/develop?
+    "http://localhost:3000/index.html"
+    (str "file://" root-dir "/index.html")))
 
 
 
@@ -40,27 +39,26 @@
 ;; Window options
 ;;
 
-(def ^:const window-height 600)
-(def ^:const window-width 500)
+(def ^:const height 600)
+(def ^:const width 500)
 
-(def ^:const window-always-on-top false)
-(def ^:const window-center false)
-(def ^:const window-closable true)
-(def ^:const window-frame true)
-(def ^:const window-minimizable true)
-(def ^:const window-movable true)
-(def ^:const window-resizable true)
-(def ^:const window-show false)
-(def ^:const window-title product-name)
-(def ^:const window-title-bar-overlay true)
-(def ^:const window-title-bar-style :hidden)
-(def ^:const window-use-content-size true)
+(def ^:const always-on-top? false)
+(def ^:const center? false)
+(def ^:const closable? true)
+(def ^:const devtools? env/develop?)
+(def ^:const frame? true)
+(def ^:const minimizable? true)
+(def ^:const movable? true)
+(def ^:const resizable? true)
+(def ^:const show? false)
+(def ^:const title env/product-name)
+(def ^:const title-bar-overlay? true)
+(def ^:const title-bar-style :hidden)
+(def ^:const use-content-size? true)
 
-(def ^:const window-node-integration false)
-(def ^:const window-sandbox false)
-(def ^:const window-web-security true)
-
-(goog-define example "N/A")
+(def ^:const node-integration? false)
+(def ^:const sandbox? env/develop?)
+(def ^:const web-security? true)
 
 
 
@@ -73,9 +71,7 @@
 
 
 ;;
-;; Crash reporter options
+;; Secret storage options
 ;;
 
-(def ^:const crash-reporter-submit-url "")
-(def ^:const crash-reporter-auto-submit true)
-(def ^:const crash-reporter-upload-to-server true)
+(def encryption-key username)
