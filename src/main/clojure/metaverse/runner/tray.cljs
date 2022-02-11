@@ -1,21 +1,21 @@
 (ns metaverse.runner.tray
   (:require
-    [metaverse.runner.config :as config]
     [metaverse.runner.electron :as electron]
     [metaverse.runner.icon :as icon]
     [metaverse.runner.menu :as menu]
     [metaverse.runner.path :as path]
+    [metaverse.runner.refs :as refs]
     [metaverse.runner.window :as window]))
 
 
 (defn ^js/electron.Tray get-instance
   []
-  @config/*tray)
+  @refs/*tray)
 
 
 (defn set-instance!
   [tray]
-  (reset! config/*tray tray))
+  (reset! refs/*tray tray))
 
 
 (defn reset-instance!
@@ -26,8 +26,7 @@
 (defn create-context-menu
   [^js/electron.BrowserWindow window]
   (menu/build-from-template
-    [{:label "Explore" :click #(window/show window)}
-     {:label "Example" :click #(js/console.log :example config/example)}]))
+    [{:label "Explore" :click #(window/show window)}]))
 
 
 (defn set-context-menu
