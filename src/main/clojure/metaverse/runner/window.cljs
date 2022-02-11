@@ -1,17 +1,19 @@
 (ns metaverse.runner.window
   (:require
+    [metaverse.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.runner.electron :as electron]))
+    [metaverse.runner.electron :as electron]
+    [metaverse.runner.refs :as refs]))
 
 
 (defn get-instance
   []
-  @config/*window)
+  @refs/*window)
 
 
 (defn set-instance!
   [window]
-  (reset! config/*window window))
+  (reset! refs/*window window))
 
 
 (defn reset-instance!
@@ -31,7 +33,7 @@
 
 (defn load-app
   [window]
-  (load-url window (str "file://" config/root-dir "/index.html")))
+  (load-url window config/index-url))
 
 
 (defn on
@@ -64,6 +66,14 @@
   (zero? (count (get-all-windows))))
 
 
+(defn toggle-devtools
+  [^js/electron.BrowserWindow window]
+  (when env/develop?
+    (if (.. window -webContents (isDevToolsOpened))
+      (.. window -webContents (closeDevTools))
+      (.. window -webContents (openDevTools #js {:mode "detach"})))))
+
+
 (defn browser-window
   [opts]
   (electron/BrowserWindow. (clj->js opts)))
@@ -71,24 +81,24 @@
 
 (defn build-browser-window-options
   []
-  {:alwaysOnTop     config/window-always-on-top
-   :center          config/window-center
-   :closable        config/window-closable
-   :devTools        true
-   :frame           config/window-frame
-   :height          config/window-height
-   :minimizable     config/window-minimizable
-   :movable         config/window-movable
-   :resizable       config/window-resizable
-   :show            config/window-show
-   :title           config/window-title
-   :titleBarOverlay config/window-title-bar-overlay
-   :titleBarStyle   config/window-title-bar-style
-   :useContentSize  config/window-use-content-size
-   :width           config/window-width
-   :webPreferences  {:nodeIntegration config/window-node-integration
-                     :webSecurity     config/window-web-security
-                     :sandbox         config/window-sandbox}})
+  {:alwaysOnTop     config/always-on-top?
+   :center          config/center?
+   :closable        config/closable?
+   :devTools        config/devtools?
+   :frame           config/frame?
+   :height          config/height
+   :minimizable     config/minimizable?
+   :movable         config/movable?
+   :resizable       config/resizable?
+   :show            config/show?
+   :title           config/title
+   :titleBarOverlay config/title-bar-overlay?
+   :titleBarStyle   config/title-bar-style
+   :useContentSize  config/use-content-size?
+   :width           config/width
+   :webPreferences  {:nodeIntegration config/node-integration?
+                     :webSecurity     config/web-security?
+                     :sandbox         config/sandbox?}})
 
 
 (defn create-window
