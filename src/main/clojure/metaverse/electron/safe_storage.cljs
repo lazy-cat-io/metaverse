@@ -1,10 +1,10 @@
-(ns metaverse.runner.safe-storage
+(ns metaverse.electron.safe-storage
   (:require
     [clojure.string :as str]
-    [metaverse.runner.electron :as electron]))
+    [metaverse.electron :as electron]))
 
 
-(def ^:const encoding "latin1")
+(def ^:const encoding "utf-8")
 
 
 (defn buffer->string
