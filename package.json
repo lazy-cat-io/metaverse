@@ -75,7 +75,6 @@
     "@octokit/graphql": "^4.8.0",
     "@sentry/electron": "^2.5.4",
     "electron-store": "^8.0.1",
-    "electron-traywindow-positioner": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
