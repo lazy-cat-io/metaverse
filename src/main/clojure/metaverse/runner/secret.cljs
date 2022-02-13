@@ -1,8 +1,8 @@
 (ns metaverse.runner.secret
   (:require
-    [metaverse.runner.config :as config]
-    [metaverse.runner.safe-storage :as safe-storage]
-    [metaverse.runner.store :as store]))
+    [metaverse.electron.safe-storage :as safe-storage]
+    [metaverse.electron.store :as store]
+    [metaverse.runner.config :as config]))
 
 
 (defonce store
