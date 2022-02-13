@@ -3,7 +3,8 @@
     [metaverse.electron.menu :as menu]
     [metaverse.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.runner.window :as window]))
+    [metaverse.runner.window :as window]
+    [metaverse.utils.platform :as platform]))
 
 
 (defn create-menu
@@ -21,6 +22,6 @@
       env/develop? (conj {:label   "Developer"
                           :submenu [{:role "reload"}
                                     {:label       "Toggle Developer Tools"
-                                     :accelerator (if config/mac-os? "Command+Alt+I" "Control+Alt+I")
+                                     :accelerator (if platform/mac-os? "Command+Alt+I" "Control+Alt+I")
                                      :click       (fn [_item focused-window]
                                                     (window/toggle-devtools focused-window #js {:mode "detach"}))}]}))))

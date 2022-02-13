@@ -1,14 +1,14 @@
 (ns metaverse.runner.config
   (:require
-    ["os" :as os]
-    [metaverse.env :as env]))
+    [metaverse.env :as env]
+    [metaverse.utils.os :as os]))
 
 
 ;;
 ;; System info
 ;;
 
-(def username (.. os (userInfo) -username))
+(def username (os/get-username))
 
 
 
@@ -27,15 +27,6 @@
 
 
 ;;
-;; Platform options
-;;
-
-(def ^:const platform js/process.platform)
-(def ^:const mac-os? (= "darwin" platform))
-
-
-
-;;
 ;; Window options
 ;;
 
@@ -46,7 +37,7 @@
 (def ^:const center? false)
 (def ^:const closable? true)
 (def ^:const devtools? env/develop?)
-(def ^:const frame? true)
+(def ^:const frame? false)
 (def ^:const minimizable? true)
 (def ^:const movable? true)
 (def ^:const resizable? true)
@@ -57,16 +48,9 @@
 (def ^:const use-content-size? true)
 
 (def ^:const node-integration? false)
-(def ^:const sandbox? env/develop?)
+(def ^:const sandbox? false)
 (def ^:const web-security? true)
-
-
-
-;;
-;; Tray alignment
-;;
-
-(def ^:const tray-alignment {:x "center", :y "up"})
+(def ^:const preload-file (str root-dir "/preload.js"))
 
 
 
