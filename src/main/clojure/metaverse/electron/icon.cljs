@@ -1,6 +1,6 @@
-(ns metaverse.runner.icon
+(ns metaverse.electron.icon
   (:require
-    [metaverse.runner.electron :as electron]))
+    [metaverse.electron :as electron]))
 
 
 (defn create-empty
