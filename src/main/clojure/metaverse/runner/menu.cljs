@@ -1,9 +1,9 @@
 (ns metaverse.runner.menu
   (:require
     [metaverse.electron.menu :as menu]
+    [metaverse.electron.window :as window]
     [metaverse.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.runner.window :as window]
     [metaverse.utils.platform :as platform]))
 
 
