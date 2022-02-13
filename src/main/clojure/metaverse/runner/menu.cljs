@@ -1,33 +1,26 @@
 (ns metaverse.runner.menu
   (:require
+    [metaverse.electron.menu :as menu]
     [metaverse.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.runner.electron :as electron]
     [metaverse.runner.window :as window]))
 
 
-(defn set-application-menu
-  [menu]
-  (.setApplicationMenu ^js/electron.Menu electron/Menu menu))
-
-
-(defn build-from-template
-  [menu]
-  (.buildFromTemplate ^js/electron.Menu electron/Menu (clj->js menu)))
-
-
 (defn create-menu
-  [window]
-  (build-from-template
-    [{:label   config/title
-      :submenu (cond-> [{:role "about"}
+  [_window]
+  (menu/build-from-template
+    (cond-> [{:label   config/title
+              :submenu [{:role "about"}
                         {:type "separator"}
                         {:role "hide"}
                         {:role "hideOthers"}
-                        {:role "unhide"}]
-                 env/develop? (conj {:type "separator"}
-                                    {:role        "Toggle DevTools"
-                                     :accelerator "Alt+CommandOrControl+I"
-                                     :click       #(window/toggle-devtools window)})
-                 :always (conj {:type "separator"}
-                               {:role "quit"}))}]))
+                        {:role "unhide"}
+                        {:type "separator"}
+                        {:role "quit"}]}]
+
+      env/develop? (conj {:label   "Developer"
+                          :submenu [{:role "reload"}
+                                    {:label       "Toggle Developer Tools"
+                                     :accelerator (if config/mac-os? "Command+Alt+I" "Control+Alt+I")
+                                     :click       (fn [_item focused-window]
+                                                    (window/toggle-devtools focused-window #js {:mode "detach"}))}]}))))
