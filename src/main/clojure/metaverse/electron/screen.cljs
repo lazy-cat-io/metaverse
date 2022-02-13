@@ -1,11 +1,11 @@
-(ns metaverse.runner.screen
+(ns metaverse.electron.screen
   (:require
-    [metaverse.runner.electron :as electron]))
+    [metaverse.electron :as electron]))
 
 
 (defn get-primary-display
   []
-  (.getPrimaryDisplay ^js/electron.screen electron/Screen))
+  (.getPrimaryDisplay electron/Screen))
 
 
 (defn get-width
