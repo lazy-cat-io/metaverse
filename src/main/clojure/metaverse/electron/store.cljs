@@ -1,8 +1,8 @@
-(ns metaverse.runner.store
+(ns metaverse.electron.store
   (:refer-clojure :exclude [get get-in assoc dissoc])
   (:require
     [clojure.string :as str]
-    [metaverse.runner.electron :as electron]))
+    [metaverse.electron :as electron]))
 
 
 (defn create-store
