@@ -1,6 +1,6 @@
-(ns metaverse.runner.keyboard
+(ns metaverse.electron.keyboard
   (:require
-    [metaverse.runner.electron :as electron]))
+    [metaverse.electron :as electron]))
 
 
 (defn register-global-shortcut!
