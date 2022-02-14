@@ -1,12 +1,27 @@
 (ns metaverse.runner.window
   (:require
     [metaverse.electron.window :as window]
-    [metaverse.runner.config :as config]))
+    [metaverse.runner.config :as config]
+    [metaverse.utils.platform :as platform]))
 
 
 (defn load-app
   [window]
   (window/load-url window config/index-url))
+
+
+(defn calculate-window-position
+  [window bounds]
+  (let [x             (.. bounds -x)
+        y             (.. bounds -y)
+        window-bounds (window/get-bounds window)
+        height        (.. window-bounds -height)
+        width         (.. window-bounds -width)
+        y-position    (if platform/mac-os? y (- y height))]
+    {:x      (- x (/ width 2))
+     :y      y-position
+     :height height
+     :width  width}))
 
 
 (defn build-browser-window-options
