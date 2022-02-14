@@ -4,6 +4,8 @@
             "src/main/clojure/data_readers.cljs"
             ".cljstyle"]}
 
+ :lint-as {day8.re-frame.tracing/fn-traced clojure.core/fn}
+
  :linters {:consistent-alias
            {:aliases {clojure.java.shell shell
                       clojure.pprint     pprint
