@@ -56,6 +56,11 @@
     (hide window)))
 
 
+(defn get-bounds
+  [^js/electron.BrowserWindow window]
+  (.getBounds window))
+
+
 (defn set-bounds
   [^js/electron.BrowserWindow window bounds]
   (.setBounds window (clj->js bounds)))
