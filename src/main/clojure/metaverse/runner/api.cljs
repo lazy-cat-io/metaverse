@@ -4,26 +4,25 @@
 
 
 (defmulti dispatch
-  (fn [_ipc-event event]
-    (log/info "dispatch" event)
-    (or (some-> event first keyword)
-        :default)))
+  (fn [_ipc-event command event]
+    (log/info "dispatch" command "event" event)
+    (or command :default)))
 
 
 (defmethod dispatch :default
-  [_ event]
-  (log/error "Unknown event" event))
+  [_ command event]
+  (log/error "Unknown command" command "event" event))
 
 
 (defmethod dispatch :increment
-  [_ [_ n]]
+  [_ _ n]
   (js/Promise.
     (fn [resolve _]
       (resolve (inc n)))))
 
 
 (defmethod dispatch :decrement
-  [_ [_ n]]
+  [_ _ n]
   (js/Promise.
     (fn [resolve _]
       (resolve (dec n)))))

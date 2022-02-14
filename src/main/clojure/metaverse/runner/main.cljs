@@ -78,6 +78,10 @@
              (.preventDefault event))))))
 
 
+(defn dispatch-handler
+  [ipc-event [command event]]
+  (api/dispatch ipc-event (keyword command) (js->clj event)))
+
 
 ;;
 ;; Initializers
@@ -117,7 +121,7 @@
     (window/on :ready-to-show window (ready-to-show-handler window tray))
     (tray/on :click tray (tray-click-handler window))
     (ipc-main/remove-handler! :dispatch)
-    (ipc-main/handle :dispatch api/dispatch)))
+    (ipc-main/handle :dispatch dispatch-handler)))
 
 
 
