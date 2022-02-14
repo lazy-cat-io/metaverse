@@ -1,7 +1,10 @@
 (ns metaverse.ui.main
   (:require
     [goog.dom :as gdom]
+    [metaverse.logger :as logger]
     [metaverse.ui.api :as api]
+    [metaverse.ui.db :as db]
+    [metaverse.ui.router.core :as router]
     [re-frame.core :as rf]
     [reagent.dom :as dom]))
 
@@ -75,7 +78,8 @@
 
 (defn setup-tools
   "Setup tools."
-  [])
+  []
+  (logger/init!))
 
 
 (defn root
@@ -89,6 +93,7 @@
   []
   (when-some [root-elem (gdom/getElement "root")]
     (rf/clear-subscription-cache!)
+    (router/init!)
     (dom/render [root] root-elem)))
 
 
@@ -97,4 +102,5 @@
   {:export true}
   []
   (setup-tools)
+  (rf/dispatch-sync [::db/init])
   (mount-root))
