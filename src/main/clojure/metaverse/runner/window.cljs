@@ -18,7 +18,7 @@
         height        (.. window-bounds -height)
         width         (.. window-bounds -width)
         y-position    (if platform/mac-os? y (- y height))]
-    {:x      (- x (/ width 2))
+    {:x      (- x (int (/ width 2)))
      :y      y-position
      :height height
      :width  width}))
