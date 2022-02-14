@@ -7,6 +7,7 @@
     [metaverse.electron.tray :as tray]
     [metaverse.electron.window :as window]
     [metaverse.logger :as log :include-macros true]
+    [metaverse.runner.api :as api]
     [metaverse.runner.config :as config]
     [metaverse.runner.menu :as runner.menu]
     [metaverse.runner.reporter :as reporter]
@@ -23,8 +24,8 @@
 ;;
 
 (defn activate-handler
-  []
-  (when (window/recreate-window?)
+  [_event has-visible-windows?]
+  (when-not has-visible-windows?
     (mount)))
 
 
@@ -44,6 +45,14 @@
   []
   (when-not platform/mac-os?
     (app/quit)))
+
+
+(defn tray-click-handler
+  [window]
+  (fn [_event bounds]
+    (let [bounds (runner.window/calculate-window-position window bounds)]
+      (window/set-bounds window bounds)
+      (window/toggle-window window))))
 
 
 (defn web-contents-created-handler
@@ -69,6 +78,11 @@
              (.preventDefault event))))))
 
 
+
+;;
+;; Initializers
+;;
+
 (defn setup-tools!
   []
   (log/init!)
@@ -80,18 +94,6 @@
 
 (defn setup-global-shortcuts!
   [_window])
-
-
-(defn dispatch-handler
-  [^js/electron.IpcMainInvokeEvent event command data]
-  (log/info "dispatch handler" event)
-  (log/info "command" command "data" data)
-  (js/Promise. (fn [resolve reject]
-                 (let [res (case command
-                             "increment" (inc data)
-                             "decrement" (dec data))]
-                   (log/info "promise" res)
-                   (resolve res)))))
 
 
 
@@ -113,21 +115,9 @@
     (runner.window/load-app window)
     (window/on :closed window closed-handler)
     (window/on :ready-to-show window (ready-to-show-handler window tray))
-    (tray/on :click tray (fn [event bounds]
-                           (js/console.log "click" bounds)
-                           (let [x             (.. bounds -x)
-                                 y             (.. bounds -y)
-                                 window-bounds (.getBounds window)
-                                 height        (.. window-bounds -height)
-                                 width         (.. window-bounds -width)
-                                 y-position    (if platform/mac-os? y (- y height))]
-                             (window/set-bounds window {:x      (- x (/ width 2))
-                                                        :y      y-position
-                                                        :height height
-                                                        :width  width})
-                             (window/toggle-window window))))
+    (tray/on :click tray (tray-click-handler window))
     (ipc-main/remove-handler! :dispatch)
-    (ipc-main/handle :dispatch dispatch-handler)))
+    (ipc-main/handle :dispatch api/dispatch)))
 
 
 
