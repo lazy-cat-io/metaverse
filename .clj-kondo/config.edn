@@ -1,7 +1,8 @@
 {:output  {:exclude-files
            ["src/main/clojure/data_readers.clj"
             "src/main/clojure/data_readers.cljc"
-            "src/main/clojure/data_readers.cljs"]}
+            "src/main/clojure/data_readers.cljs"
+            ".cljstyle"]}
 
  :linters {:consistent-alias
            {:aliases {clojure.java.shell shell
