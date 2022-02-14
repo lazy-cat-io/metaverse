@@ -1,41 +1,76 @@
 (ns metaverse.ui.main
   (:require
     [goog.dom :as gdom]
+    [metaverse.ui.api :as api]
     [re-frame.core :as rf]
-    [reagent.core :as r]
     [reagent.dom :as dom]))
+
+
+(rf/reg-sub
+  :counter
+  (fn [db]
+    (get db :counter 0)))
+
+
+(rf/reg-event-db
+  :increment->success
+  (fn [db [_ n]]
+    (assoc db :counter n)))
+
+
+(rf/reg-event-db
+  :increment->failure
+  (fn [db [_ error]]
+    (js/console.log :increment->failure error)
+    db))
+
+
+(rf/reg-event-fx
+  :increment
+  (fn [_ [_ n]]
+    {::api/dispatch {:event      [:increment n]
+                     :on-success [:increment->success]
+                     :on-failure [:increment->failure]}}))
+
+
+(rf/reg-event-db
+  :decrement->success
+  (fn [db [_ n]]
+    (assoc db :counter n)))
+
+
+(rf/reg-event-db
+  :decrement->failure
+  (fn [db [_ error]]
+    (js/console.log :decrement->failure error)
+    db))
+
+
+(rf/reg-event-fx
+  :decrement
+  (fn [_ [_ n]]
+    {::api/dispatch {:event      [:decrement n]
+                     :on-success [:decrement->success]
+                     :on-failure [:decrement->failure]}}))
 
 
 (defn app
   [counter]
-  (let [f (fn [command]
-            (fn []
-              (let [n @counter]
-                (js/console.log :command command)
-                (js/console.log :click n)
-                (js/console.log :bridge (.. js/window -bridge))
-                (-> (.. js/window -bridge (dispatch command n))
-                    (.then (fn [response]
-                             (js/console.log :response response)
-                             (reset! counter response)))
-                    (.catch (fn [error]
-                              (js/console.error :error error)))))))]
-    (js/console.log :counter @counter)
-    [:div {:class "p-4"}
-     [:div {:class "flex"}
-      [:div {:class "flex-1"}
-       ""]
-      [:div {:class "flex-1"}
-       [:img {:src "assets/images/logotype.black.svg"}]]]
-     [:div {:class "flex flex-col"}
-      [:div {:class ""}
-       [:button {:class    "mx-2 w-24 py-2 my-2 bg-gray-300 font-semibold rounded text-xs text-center dark:text-black hover:bg-gray-500 hover:text-white focus:outline-none"
-                 :on-click (f "decrement")}
-        "-"]
-       [:button {:class    "w-24 py-2 my-2 bg-gray-300 font-semibold rounded text-xs text-center dark:text-black hover:bg-gray-500 hover:text-white focus:outline-none"
-                 :on-click (f "increment")}
-        "+"]]
-      [:span @counter]]]))
+  [:div {:class "p-4"}
+   [:div {:class "flex"}
+    [:div {:class "flex-1"}
+     ""]
+    [:div {:class "flex-1"}
+     [:img {:src "assets/images/logotype.black.svg"}]]]
+   [:div {:class "flex flex-col"}
+    [:div {:class ""}
+     [:button {:class    "mx-2 w-24 py-2 my-2 bg-gray-300 font-semibold rounded text-xs text-center dark:text-black hover:bg-gray-500 hover:text-white focus:outline-none"
+               :on-click #(rf/dispatch [:decrement counter])}
+      "-"]
+     [:button {:class    "w-24 py-2 my-2 bg-gray-300 font-semibold rounded text-xs text-center dark:text-black hover:bg-gray-500 hover:text-white focus:outline-none"
+               :on-click #(rf/dispatch [:increment counter])}
+      "+"]]
+    [:span counter]]])
 
 
 (defn setup-tools
@@ -45,7 +80,7 @@
 
 (defn root
   []
-  [app (r/atom 42)])
+  [app @(rf/subscribe [:counter])])
 
 
 (defn mount-root
