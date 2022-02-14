@@ -6,6 +6,8 @@
                                                                         cljsjs/react-dom
                                                                         cljsjs/react-dom-server]}
            re-frame/re-frame         {:mvn/version "1.2.0"}
+           metosin/reitit            {:mvn/version "0.5.15"}
+           metosin/malli             {:mvn/version "0.8.2"}
            lambdaisland/fetch        {:mvn/version "1.0.41"}
            com.lambdaisland/glogi    {:mvn/version "1.1.144"}}
 
