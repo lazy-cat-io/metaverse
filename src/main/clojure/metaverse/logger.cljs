@@ -16,4 +16,4 @@
      (log/set-levels
        {:glogi/root level
         'metaverse  level})
-     (log/debug :msg "Logger successfully initialized" :level level))))
+     (log/info :msg "Logger successfully initialized" :level level))))
