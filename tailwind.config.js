@@ -4,8 +4,13 @@ module.exports = {
       ? ["./public/**/*.html", "./public/assets/js/main.js"]
       : ["./public/**/*.html", "./public/assets/js/main.js", "./public/assets/js/cljs-runtime/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        logotype: "url('/assets/images/logotype.black.svg')",
+      },
+    },
   },
+  darkMode: "class",
   variants: {},
   plugins: [],
 };
