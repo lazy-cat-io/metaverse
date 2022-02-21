@@ -1,6 +1,7 @@
 (ns metaverse.ui.db
   (:require
     [day8.re-frame.tracing :refer-macros [fn-traced]]
+    [metaverse.ui.storage :as storage]
     [re-frame.core :as rf]))
 
 
@@ -10,8 +11,8 @@
 
 (def system-theme
   (if (.. js/window (matchMedia "(prefers-color-scheme: dark)") -matches)
-    :dark
-    :light))
+    "dark"
+    "light"))
 
 
 
@@ -20,15 +21,16 @@
 ;;
 
 ;; FIXME: [2022-02-15, ilshat@sultanov.team]
-;; 1. Add events to read user profile and tokens from the secret store
-;; 2. Load user theme from the store or local storage
+;; - Add events to read user profile and tokens from the secret store
 
 (rf/reg-event-fx
   ::init
-  (fn-traced [_ _]
+  [(rf/inject-cofx :local-storage :theme)]
+  (fn-traced [{{theme :theme} :local-storage} _]
     {:db {:app {:initialized? false
-                :theme        system-theme}}
-     :fx [[:dispatch-later {:ms 1000 :dispatch [:app/initialized]}]]}))
+                :theme        (or theme system-theme)}}
+     :fx [[:dispatch-later {:ms 1000 :dispatch [:app/initialized]}]
+          (when-not theme [:dispatch [:app/toggle-theme]])]}))
 
 
 
@@ -52,16 +54,17 @@
 (defn next-theme
   [theme]
   (case theme
-    :light :dark
-    :dark :light
-    :light))
+    "light" "dark"
+    "dark" "light"
+    "light"))
 
 
 (rf/reg-fx
   :app/toggle-theme
   (fn-traced [{:theme/keys [current next]}]
     (.add (.. js/document -documentElement -classList) (name next))
-    (.remove (.. js/document -documentElement -classList) (name current))))
+    (.remove (.. js/document -documentElement -classList) (name current))
+    (storage/set-item! :theme next)))
 
 
 (rf/reg-event-fx
