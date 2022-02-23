@@ -18,6 +18,7 @@
 
 (goog-define sentry-dsn "N/A")
 
+(goog-define clojuredocs-export-url "N/A")
 
 
 (def develop?

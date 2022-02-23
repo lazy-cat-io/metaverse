@@ -16,6 +16,9 @@
                    metaverse.env/git-sha                   #shadow/env "METAVERSE_GIT_SHA"
 
                    metaverse.env/sentry-dsn                #shadow/env "METAVERSE_SENTRY_DSN"
+
+                   metaverse.env/clojuredocs-export-url    #shadow/env "METAVERSE_CLOJUREDOCS_EXPORT_URL"
+
                    metaverse.env/github-auth-client-id     #shadow/env "METAVERSE_AUTH_GITHUB_CLIENT_ID"
                    metaverse.env/github-auth-client-secret #shadow/env "METAVERSE_AUTH_GITHUB_CLIENT_SECRET"}
 
