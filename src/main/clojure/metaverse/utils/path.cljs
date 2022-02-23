@@ -9,3 +9,7 @@
     (fn [acc v]
       (.join path acc v))
     paths))
+
+
+(defn dir-name [filename]
+  (.dirname path filename))
