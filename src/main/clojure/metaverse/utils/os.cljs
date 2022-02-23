@@ -12,3 +12,8 @@
 (defn get-username
   []
   (:username (get-user-info)))
+
+
+(defn home-dir
+  []
+  (.homedir os))
