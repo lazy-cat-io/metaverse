@@ -30,20 +30,22 @@
 ;; Window options
 ;;
 
-(def ^:const height 600)
-(def ^:const width 500)
+(def ^:const height 800)
+(def ^:const width 600)
 
 (def ^:const always-on-top? false)
 (def ^:const center? false)
 (def ^:const closable? true)
 (def ^:const devtools? env/develop?)
 (def ^:const frame? false)
+(def ^:const full-screenable? true)
+(def ^:const maximizable? true)
 (def ^:const minimizable? true)
 (def ^:const movable? true)
 (def ^:const resizable? true)
 (def ^:const show? false)
 (def ^:const title env/product-name)
-(def ^:const title-bar-overlay? true)
+(def ^:const title-bar-overlay? false)
 (def ^:const title-bar-style :hidden)
 (def ^:const use-content-size? true)
 

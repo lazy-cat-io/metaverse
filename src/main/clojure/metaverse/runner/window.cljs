@@ -31,7 +31,9 @@
    :closable        config/closable?
    :devTools        config/devtools?
    :frame           config/frame?
+   :fullscreenable  config/full-screenable?
    :height          config/height
+   :maximizable     config/maximizable?
    :minimizable     config/minimizable?
    :movable         config/movable?
    :resizable       config/resizable?
@@ -41,10 +43,10 @@
    :titleBarStyle   config/title-bar-style
    :useContentSize  config/use-content-size?
    :width           config/width
-   :webPreferences  {:nodeIntegration    config/node-integration?
-                     :webSecurity        config/web-security?
-                     :sandbox            config/sandbox?
-                     :preload            config/preload-file}})
+   :webPreferences  {:nodeIntegration config/node-integration?
+                     :webSecurity     config/web-security?
+                     :sandbox         config/sandbox?
+                     :preload         config/preload-file}})
 
 
 (defn create-window
