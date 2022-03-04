@@ -18,7 +18,8 @@
 
 (goog-define sentry-dsn "N/A")
 
-(goog-define clojuredocs-export-url "N/A")
+(goog-define supabase-url "N/A")
+(goog-define supabase-public-key "N/A")
 
 
 (def develop?

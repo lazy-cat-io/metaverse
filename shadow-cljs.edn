@@ -6,21 +6,19 @@
                   3001 "public/test/"}
 
  :build-defaults {:closure-defines
-                  {goog.DEBUG                              true
+                  {goog.DEBUG                           true
 
-                   metaverse.env/version                   #shadow/env "METAVERSE_VERSION"
-                   metaverse.env/build-number              #shadow/env "METAVERSE_BUILD_NUMBER"
-                   metaverse.env/build-timestamp           #shadow/env "METAVERSE_BUILD_TIMESTAMP"
-                   metaverse.env/git-url                   #shadow/env "METAVERSE_GIT_URL"
-                   metaverse.env/git-branch                #shadow/env "METAVERSE_GIT_BRANCH"
-                   metaverse.env/git-sha                   #shadow/env "METAVERSE_GIT_SHA"
+                   metaverse.env/version                #shadow/env "METAVERSE_VERSION"
+                   metaverse.env/build-number           #shadow/env "METAVERSE_BUILD_NUMBER"
+                   metaverse.env/build-timestamp        #shadow/env "METAVERSE_BUILD_TIMESTAMP"
+                   metaverse.env/git-url                #shadow/env "METAVERSE_GIT_URL"
+                   metaverse.env/git-branch             #shadow/env "METAVERSE_GIT_BRANCH"
+                   metaverse.env/git-sha                #shadow/env "METAVERSE_GIT_SHA"
 
-                   metaverse.env/sentry-dsn                #shadow/env "METAVERSE_SENTRY_DSN"
+                   metaverse.env/sentry-dsn             #shadow/env "METAVERSE_SENTRY_DSN"
 
-                   metaverse.env/clojuredocs-export-url    #shadow/env "METAVERSE_CLOJUREDOCS_EXPORT_URL"
-
-                   metaverse.env/github-auth-client-id     #shadow/env "METAVERSE_AUTH_GITHUB_CLIENT_ID"
-                   metaverse.env/github-auth-client-secret #shadow/env "METAVERSE_AUTH_GITHUB_CLIENT_SECRET"}
+                   metaverse.env/supabase-url           #shadow/env "METAVERSE_SUPABASE_URL"
+                   metaverse.env/supabase-public-key    #shadow/env "METAVERSE_SUPABASE_PUBLIC_KEY"}
 
                   :compiler-options {:output-feature-set :es-next}}
 
