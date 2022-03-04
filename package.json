@@ -73,11 +73,9 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
-    "@octokit/graphql": "^4.8.0",
     "@sentry/electron": "^3.0.3",
     "@supabase/supabase-js": "^1.30.7",
     "electron-store": "^8.0.1",
-    "node-fetch": "2.6.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
