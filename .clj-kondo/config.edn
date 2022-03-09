@@ -1,31 +1,33 @@
-{:output  {:exclude-files
-           ["src/main/clojure/data_readers.clj"
-            "src/main/clojure/data_readers.cljc"
-            "src/main/clojure/data_readers.cljs"
-            ".cljstyle"]}
+{:output       {:exclude-files
+                ["src/main/clojure/data_readers.clj"
+                 "src/main/clojure/data_readers.cljc"
+                 "src/main/clojure/data_readers.cljs"
+                 ".cljstyle"]}
 
- :lint-as {day8.re-frame.tracing/fn-traced clojure.core/fn}
+ :config-paths ["metosin/malli/config.edn"]
 
- :linters {:consistent-alias
-           {:aliases {clojure.java.shell shell
-                      clojure.pprint     pprint
-                      clojure.set        set
-                      clojure.string     str}}
+ :lint-as      {day8.re-frame.tracing/fn-traced clojure.core/fn}
 
-           :unresolved-namespace
-           {:exclude [user criterium.core]}
+ :linters      {:consistent-alias
+                {:aliases {clojure.java.shell shell
+                           clojure.pprint     pprint
+                           clojure.set        set
+                           clojure.string     str}}
 
-           :unresolved-symbol
-           {:exclude [(cljs.test/are [thrown? thrown-with-msg?])
-                      (cljs.test/is [thrown? thrown-with-msg?])
-                      (clojure.test/are [thrown? thrown-with-msg?])
-                      (clojure.test/is [thrown? thrown-with-msg?])]}
+                :unresolved-namespace
+                {:exclude [user criterium.core]}
 
-           :unsorted-required-namespaces
-           {:level :warning}
+                :unresolved-symbol
+                {:exclude [(cljs.test/are [thrown? thrown-with-msg?])
+                           (cljs.test/is [thrown? thrown-with-msg?])
+                           (clojure.test/are [thrown? thrown-with-msg?])
+                           (clojure.test/is [thrown? thrown-with-msg?])]}
 
-           :unused-referred-var
-           {:exclude {cljs.test    [deftest is testing use-fixtures]
-                      clojure.test [deftest is testing use-fixtures]}}}
+                :unsorted-required-namespaces
+                {:level :warning}
 
- :hooks   {}}
+                :unused-referred-var
+                {:exclude {cljs.test    [deftest is testing use-fixtures]
+                           clojure.test [deftest is testing use-fixtures]}}}
+
+ :hooks        {}}
