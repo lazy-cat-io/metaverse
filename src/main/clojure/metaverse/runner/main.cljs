@@ -9,11 +9,14 @@
     [metaverse.electron.window :as window]
     [metaverse.logger :as log :include-macros true]
     [metaverse.runner.api :as api]
+    ;; runner api deps
+    [metaverse.runner.api.auth]
     [metaverse.runner.config :as config]
     [metaverse.runner.menu :as runner.menu]
     [metaverse.runner.reporter :as reporter]
     [metaverse.runner.tray :as runner.tray]
     [metaverse.runner.window :as runner.window]
+    [metaverse.supabase :as supabase]
     [metaverse.utils.platform :as platform]))
 
 
@@ -91,7 +94,8 @@
 (defn setup-tools!
   []
   (log/init!)
-  (reporter/init!))
+  (reporter/init!)
+  (supabase/init!))
 
 
 ;; TODO: [2022-02-11, ilshat@sultanov.team] Add a global shortcut to search for a library or docs / to create a new project?
@@ -121,7 +125,6 @@
     (window/on :closed window closed-handler)
     (window/on :ready-to-show window (ready-to-show-handler window tray))
     (tray/on :click tray (tray-click-handler window))
-    (ipc-main/remove-handler! :dispatch)
     (ipc-main/handle :dispatch dispatch-handler)))
 
 
