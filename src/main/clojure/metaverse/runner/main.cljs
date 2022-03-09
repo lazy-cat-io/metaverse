@@ -1,5 +1,6 @@
 (ns metaverse.runner.main
   (:require
+    [cljs-bean.core :as bean]
     [clojure.string :as str]
     [metaverse.electron.app :as app]
     [metaverse.electron.ipc-main :as ipc-main]
@@ -80,7 +81,7 @@
 
 (defn dispatch-handler
   [ipc-event [command event]]
-  (api/dispatch ipc-event (keyword command) (js->clj event)))
+  (api/dispatch ipc-event (keyword command) (bean/->clj event)))
 
 
 ;;
