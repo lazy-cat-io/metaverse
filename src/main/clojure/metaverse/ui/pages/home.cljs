@@ -1,5 +1,7 @@
 (ns metaverse.ui.pages.home
   (:require
+    [metaverse.logger :as log :include-macros true]
+    [metaverse.ui.api]
     [metaverse.ui.components.heroicons.outline :as icons]
     [re-frame.core :as rf]))
 
@@ -69,8 +71,53 @@
               [navbar-item route-name item]))]]))
 
 
+(rf/reg-event-fx
+  ::sign-in->success
+  (fn [cofx [_ res]]
+    (log/info ::sign-in->success res)
+    {:local-storage/set-item [:metaverse/user res]}))
+
+
+(rf/reg-event-fx
+  ::sign-in->failure
+  (fn [cofx [_ res]]
+    (log/info ::sign-in->failure res)
+    {:local-storage/remove-item [:metaverse/user]}))
+
+
+(rf/reg-event-fx
+  ::sign-in
+  (fn [_ [_ opts]]
+    {:api/dispatch {:event      [:auth/sign-in opts]
+                    :on-success [::sign-in->success]
+                    :on-failure [::sign-in->failure]}}))
+
+
+(rf/reg-event-fx
+  ::sign-out->success
+  (fn [_ [_ res]]
+    (log/info ::sign-out->success res)
+    {:local-storage/remove-item :metaverse/user}))
+
+
+(rf/reg-event-fx
+  ::sign-out->failure
+  (fn [_ [_ res]]
+    (log/info ::sign-out->failure res)
+    {:local-storage/remove-item :metaverse/user}))
+
+
+(rf/reg-event-fx
+  ::sign-out
+  (fn [_ [_ opts]]
+    {:api/dispatch {:event      [:auth/sign-out opts]
+                    :on-success [::sign-out->success]
+                    :on-failure [::sign-out->failure]}}))
+
+
+
 (defn example
-  [route-name]
+  [route-name theme]
   [:div.page {:style {:border "0px solid red"}}
    [logotype]
    [navbar route-name]
@@ -87,11 +134,29 @@
    [:div.grid-row-1.col-span-full.my-4 {:style {:border "0px solid lime"}}
     [:span (get-in navbar-items [route-name :header])]]
 
-   [:button
-    {:on-click #(rf/dispatch [:app/toggle-theme])}
-    "Toggle theme"]
+   [:div
+    [:button
+     {:on-click #(rf/dispatch [::sign-in {:email "john@doe.com", :password "secret"}])}
+     "Sign-in via email"]
 
-   [:span @(rf/subscribe [:app/theme])]])
+    [:button
+     {:on-click #(rf/dispatch [::sign-in {:provider "github"}])}
+     "Sign-in via GitHub"]
+
+    [:button
+     {:on-click #(rf/dispatch [::sign-out])}
+     "Sign-out"]]
+
+   [:div
+    [:button
+     {:on-click #(rf/dispatch [:app/set-theme "dark"])}
+     "Set dark theme"]
+
+    [:button
+     {:on-click #(rf/dispatch [:app/set-theme "light"])}
+     "Set light theme"]
+
+    [:span (str "theme: " theme)]]])
 
 
 (defn page
@@ -99,10 +164,10 @@
   []
   (if-not @(rf/subscribe [:app/initialized?])
     [loading-page]
-    (let [route-name @(rf/subscribe [:navigation/route-name])]
-      (js/console.log :route-name route-name)
+    (let [route-name @(rf/subscribe [:navigation/route-name])
+          theme      @(rf/subscribe [:app/theme])]
       (case route-name
-        :page/home [example route-name]
+        :page/home [example route-name theme]
         :page/sign-in [example route-name]
         :page/sign-in.github [example route-name]
         :page/news [example route-name]
