@@ -125,6 +125,7 @@
     (window/on :closed window closed-handler)
     (window/on :ready-to-show window (ready-to-show-handler window tray))
     (tray/on :click tray (tray-click-handler window))
+    (ipc-main/remove-handler! :dispatch)
     (ipc-main/handle :dispatch dispatch-handler)))
 
 
