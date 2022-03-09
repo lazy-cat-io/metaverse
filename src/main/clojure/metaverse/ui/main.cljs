@@ -5,6 +5,7 @@
     [metaverse.ui.db :as db]
     [metaverse.ui.pages.home :as home]
     [metaverse.ui.router.core :as router]
+    [metaverse.ui.storage]
     [re-frame.core :as rf]
     [reagent.dom :as dom]))
 

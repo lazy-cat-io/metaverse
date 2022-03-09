@@ -1,7 +1,7 @@
 (ns metaverse.ui.db
   (:require
     [day8.re-frame.tracing :refer-macros [fn-traced]]
-    [metaverse.ui.storage :as storage]
+    [metaverse.ui.profile.core]
     [re-frame.core :as rf]))
 
 
@@ -25,12 +25,13 @@
 
 (rf/reg-event-fx
   ::init
-  [(rf/inject-cofx :local-storage :theme)]
-  (fn-traced [{{theme :theme} :local-storage} _]
-    {:db {:app {:initialized? false
-                :theme        (or theme system-theme)}}
-     :fx [[:dispatch-later {:ms 1000 :dispatch [:app/initialized]}]
-          (when-not theme [:dispatch [:app/toggle-theme]])]}))
+  [(rf/inject-cofx :local-storage/get-items [:metaverse/theme :metaverse/user])]
+  (fn-traced [{{:metaverse/keys [theme user] :as local-storage} :local-storage} _]
+    (let [theme (or theme system-theme)]
+      {:db {:app  {:initialized? false}
+            :user user}
+       :fx [[:dispatch-later {:ms 1000 :dispatch [:app/initialized]}]
+            [:dispatch [:app/set-theme theme]]]})))
 
 
 
@@ -51,33 +52,33 @@
 
 ;; Theme
 
-(defn next-theme
+(defn previous-theme
   [theme]
   (case theme
     "light" "dark"
     "dark" "light"
-    "light"))
+    system-theme))
 
 
 (rf/reg-fx
-  :app/toggle-theme
-  (fn-traced [{:theme/keys [current next]}]
-    (.add (.. js/document -documentElement -classList) (name next))
-    (.remove (.. js/document -documentElement -classList) (name current))
-    (storage/set-item! :theme next)))
+  :app/set-theme
+  (fn-traced [theme]
+    (let [previous (previous-theme theme)]
+      (when previous
+        (.remove (.. js/document -documentElement -classList) (name previous)))
+      (when theme
+        (.add (.. js/document -documentElement -classList) (name theme))))))
 
 
 (rf/reg-event-fx
-  :app/toggle-theme
-  (fn-traced [{db :db} _]
-    (let [current (get-in db [:app :theme] system-theme)
-          next    (next-theme current)]
-      {:db               (assoc-in db [:app :theme] next)
-       :app/toggle-theme {:theme/current current
-                          :theme/next    next}})))
+  :app/set-theme
+  (fn-traced [{db :db} [_ theme]]
+    {:db                     (assoc-in db [:app :theme] theme)
+     :app/set-theme          theme
+     :local-storage/set-item [:metaverse/theme theme]}))
 
 
 (rf/reg-sub
   :app/theme
   (fn [db]
-    (get-in db [:app :theme] system-theme)))
+    (get-in db [:app :theme])))
