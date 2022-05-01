@@ -3,7 +3,7 @@
     [clojure.string :as str]))
 
 
-(goog-define company-name "@team.sultanov")
+(goog-define company-name "@io.lazy-cat")
 (goog-define product-name "metaverse")
 
 (goog-define mode "production")
