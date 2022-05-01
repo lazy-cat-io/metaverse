@@ -62,6 +62,7 @@
     "karma": "^6.3.19",
     "karma-chrome-launcher": "^3.1.1",
     "karma-cljs-test": "^0.1.0",
+    "nbb": "^0.3.10",
     "npm-check-updates": "^12.5.10",
     "postcss": "^8.4.13",
     "postcss-cli": "^9.1.0",
