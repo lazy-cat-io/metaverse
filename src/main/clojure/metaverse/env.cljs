@@ -1,6 +1,9 @@
 (ns metaverse.env
   (:require
-    [clojure.string :as str]))
+    [cljs.reader :as reader]
+    [clojure.string :as str])
+  (:require-macros
+    [metaverse.utils.resource :as resource]))
 
 
 (goog-define company-name "@io.lazy-cat")
@@ -20,6 +23,12 @@
 
 (goog-define supabase-url "N/A")
 (goog-define supabase-public-key "N/A")
+
+
+(def build-info
+  (->> "io/lazy-cat/metaverse/build.edn"
+       (resource/slurp)
+       (reader/read-string)))
 
 
 (def develop?
