@@ -19,6 +19,7 @@ node_modules
 public/assets/js
 public/assets/styles
 public/test
+public/downloader.js
 public/main.js
 target
 build.edn
