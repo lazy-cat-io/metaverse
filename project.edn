@@ -1,0 +1,16 @@
+{:name         io.lazy-cat/metaverse
+ :version      "0.1.{{ git/commits-count }}{{ version/pre-release }}"
+ :description  "The Metaverse of Clojurians."
+ :license      "MIT"
+ :author       "Ilshat Sultanov <ilshat@sultanov.team>"
+ :contributors [{:name  "Ilshat Sultanov"
+                 :email "ilshat@sultanov.team"
+                 :url   "https://github.com/just-sultanov"}]
+ :homepage     "https://github.com/lazy-cat-io/metaverse#readme"
+ :repository   {:url "https://github.com/lazy-cat-io/metaverse"}
+ :bugs         {:url "https://github.com/lazy-cat-io/metaverse/issues"}
+ :keywords     [:clojure :clojurescript :electron :metaverse :reagent :shadow-cljs]
+
+ :metadata     {:build/created-at "{{ build/created-at }}"
+                :git/branch       "{{ git/branch }}"
+                :git/sha          "{{ git/sha }}"}}
