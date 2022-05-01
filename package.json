@@ -1,6 +1,6 @@
 {
-  "name": "@team.sultanov/metaverse",
-  "version": "0.0.0-SNAPSHOT",
+  "name": "@io.lazy-cat/metaverse",
+  "version": "0.1.163",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -63,7 +63,7 @@
     "karma-chrome-launcher": "^3.1.1",
     "karma-cljs-test": "^0.1.0",
     "npm-check-updates": "^12.5.10",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
     "prettier": "^2.6.2",
@@ -79,7 +79,7 @@
     "react-dom": "^18.1.0"
   },
   "build": {
-    "appId": "team.sultanov.metaverse",
+    "appId": "io.lazy-cat.metaverse",
     "productName": "metaverse",
     "icon": "public/assets/icons/mac/icon.icns",
     "asar": true,
