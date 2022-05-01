@@ -94,8 +94,18 @@
 (defn setup-tools!
   []
   (log/init!)
-  (reporter/init!)
+  (reporter/init!))
+
+
+(defn setup-deps!
+  []
   (supabase/init!))
+
+
+(defn setup!
+  []
+  (setup-tools!)
+  (setup-deps!))
 
 
 ;; TODO: [2022-02-11, ilshat@sultanov.team] Add a global shortcut to search for a library or docs / to create a new project?
@@ -136,7 +146,7 @@
 
 (defn init!
   []
-  (setup-tools!)
+  (setup!)
   (app/on :ready mount)
   (app/on :activate activate-handler)
   (app/on :window-all-closed window-all-closed-handler)
