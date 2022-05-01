@@ -11,5 +11,6 @@
     paths))
 
 
-(defn dir-name [filename]
+(defn dir-name
+  [filename]
   (.dirname path filename))
