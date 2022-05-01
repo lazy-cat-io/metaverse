@@ -11,6 +11,9 @@
  :bugs         {:url "https://github.com/lazy-cat-io/metaverse/issues"}
  :keywords     [:clojure :clojurescript :electron :metaverse :reagent :shadow-cljs]
 
+ :build        {:src-dirs      ["src/main/clojure"]
+                :resource-dirs ["src/main/resources"]}
+
  :metadata     {:build/created-at "{{ build/created-at }}"
                 :git/branch       "{{ git/branch }}"
                 :git/sha          "{{ git/sha }}"}}
