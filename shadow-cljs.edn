@@ -5,57 +5,56 @@
  :dev-http       {3000 "public/"
                   3001 "public/test/"}
 
- :build-defaults {:closure-defines
-                  {goog.DEBUG                           true
-
-                   metaverse.env/version                #shadow/env "METAVERSE_VERSION"
-                   metaverse.env/build-number           #shadow/env "METAVERSE_BUILD_NUMBER"
-                   metaverse.env/build-timestamp        #shadow/env "METAVERSE_BUILD_TIMESTAMP"
-                   metaverse.env/git-url                #shadow/env "METAVERSE_GIT_URL"
-                   metaverse.env/git-branch             #shadow/env "METAVERSE_GIT_BRANCH"
-                   metaverse.env/git-sha                #shadow/env "METAVERSE_GIT_SHA"
-
-                   metaverse.env/sentry-dsn             #shadow/env "METAVERSE_SENTRY_DSN"
-
-                   metaverse.env/supabase-url           #shadow/env "METAVERSE_SUPABASE_URL"
-                   metaverse.env/supabase-public-key    #shadow/env "METAVERSE_SUPABASE_PUBLIC_KEY"}
+ :build-defaults {:closure-defines  {goog.DEBUG                        true
+                                     metaverse.env/sentry-dsn          #shadow/env "METAVERSE_SENTRY_DSN"
+                                     metaverse.env/supabase-url        #shadow/env "METAVERSE_SUPABASE_URL"
+                                     metaverse.env/supabase-public-key #shadow/env "METAVERSE_SUPABASE_PUBLIC_KEY"}
 
                   :compiler-options {:output-feature-set :es-next}}
 
- :builds         {:runner {:target    :node-script
-                           :output-to "public/main.js"
-                           :main      metaverse.runner.main/init!
+ :builds         {:runner     {:target    :node-script
+                               :output-to "public/main.js"
+                               :main      metaverse.runner.main/init!
 
-                           :dev       {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
-                                                                            day8.re-frame.tracing/trace-enabled? true
-                                                                            metaverse.env/mode                   "develop"
-                                                                            metaverse.env/logger-level           "trace"}}}}
+                               :dev       {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                                day8.re-frame.tracing/trace-enabled? true
+                                                                                metaverse.env/mode                   "develop"
+                                                                                metaverse.env/logger-level           "trace"}}}}
 
-                  :app    {:target     :browser
-                           :output-dir "public/assets/js"
-                           :asset-path "js"
+                  :downloader {:target    :node-script
+                               :output-to "public/downloader.js"
+                               :main      metaverse.downloader/init!
 
-                           :modules    {:main {:init-fn metaverse.ui.main/init!}}
+                               :dev       {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                                day8.re-frame.tracing/trace-enabled? true
+                                                                                metaverse.env/mode                   "develop"
+                                                                                metaverse.env/logger-level           "trace"}}}}
 
-                           :devtools   {:preloads [devtools.preload
-                                                   day8.re-frame-10x.preload]}
+                  :app        {:target     :browser
+                               :output-dir "public/assets/js"
+                               :asset-path "js"
 
-                           :dev        {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
-                                                                             day8.re-frame.tracing/trace-enabled? true
-                                                                             metaverse.env/mode                   "develop"
-                                                                             metaverse.env/logger-level           "trace"}}}
+                               :modules    {:main {:init-fn metaverse.ui.main/init!}}
 
-                           :release    {}}
+                               :devtools   {:preloads [devtools.preload
+                                                       day8.re-frame-10x.preload]}
 
-                  :test   {:target   :browser-test
-                           :test-dir "public/test"
+                               :dev        {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                                 day8.re-frame.tracing/trace-enabled? true
+                                                                                 metaverse.env/mode                   "develop"
+                                                                                 metaverse.env/logger-level           "trace"}}}
 
-                           :devtools {}
+                               :release    {}}
 
-                           :dev      {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
-                                                                           day8.re-frame.tracing/trace-enabled? true
-                                                                           metaverse.env/mode                   "develop"
-                                                                           metaverse.env/logger-level           "trace"}}}}
+                  :test       {:target   :browser-test
+                               :test-dir "public/test"
 
-                  :ci     {:target    :karma
-                           :output-to "public/test/assets/ci.js"}}}
+                               :devtools {}
+
+                               :dev      {:compiler-options {:closure-defines {re-frame.trace/trace-enabled?        true
+                                                                               day8.re-frame.tracing/trace-enabled? true
+                                                                               metaverse.env/mode                   "develop"
+                                                                               metaverse.env/logger-level           "trace"}}}}
+
+                  :ci         {:target    :karma
+                               :output-to "public/test/assets/ci.js"}}}
