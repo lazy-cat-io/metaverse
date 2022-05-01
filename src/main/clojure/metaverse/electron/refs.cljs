@@ -2,4 +2,3 @@
 
 (defonce *window (atom nil))
 (defonce *tray (atom nil))
-(defonce *supabase (atom nil))
