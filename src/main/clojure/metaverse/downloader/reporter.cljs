@@ -1,8 +1,8 @@
-(ns metaverse.runner.reporter
+(ns metaverse.downloader.reporter
   (:require
     [metaverse.env :as env]
     [metaverse.logger :as log :include-macros true]
-    [metaverse.sentry.electron :as sentry]
+    [metaverse.sentry.nodejs :as sentry]
     [metaverse.utils.string :as str]
     [tenet.response :as r]))
 
