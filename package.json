@@ -13,11 +13,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sultanov-team/metaverse.git"
+    "url": "git+https://github.com/lazy-cat-io/metaverse.git"
   },
-  "homepage": "https://github.com/sultanov-team/metaverse#readme",
+  "homepage": "https://github.com/lazy-cat-io/metaverse#readme",
   "bugs": {
-    "url": "https://github.com/sultanov-team/metaverse/issues"
+    "url": "https://github.com/lazy-cat-io/metaverse/issues"
   },
   "keywords": [
     "clojure",
