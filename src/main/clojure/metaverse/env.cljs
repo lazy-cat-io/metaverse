@@ -6,7 +6,7 @@
     [metaverse.utils.resource :as resource]))
 
 
-(goog-define company-name "@io.lazy-cat")
+(goog-define company-name "io.lazy-cat")
 (goog-define product-name "metaverse")
 
 (goog-define mode "production")
