@@ -4,10 +4,10 @@
 
 
 (defmulti dispatch
-  (fn [_ipc-event command _event]
-    (or command :default)))
+  (fn [_ipc-event event]
+    (or (first event) :default)))
 
 
 (defmethod dispatch :default
-  [_ command event]
-  (log/error "Unknown command" command "event" event))
+  [_ipc-event event]
+  (log/error :msg "Unknown command" :event (first event)))

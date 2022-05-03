@@ -17,7 +17,8 @@
     [metaverse.runner.tray :as runner.tray]
     [metaverse.runner.window :as runner.window]
     [metaverse.supabase :as supabase]
-    [metaverse.utils.platform :as platform]))
+    [metaverse.utils.platform :as platform]
+    [metaverse.utils.transit :as t]))
 
 
 (declare mount)
@@ -83,8 +84,10 @@
 
 
 (defn dispatch-handler
-  [ipc-event [command event]]
-  (api/dispatch ipc-event (keyword command) (bean/->clj event)))
+  [ipc-event event]
+  (let [event (t/read event)]
+    (-> (api/dispatch ipc-event event)
+        (t/then-write))))
 
 
 ;;
