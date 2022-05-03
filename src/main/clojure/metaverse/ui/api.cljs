@@ -1,12 +1,18 @@
 (ns metaverse.ui.api
   (:require
-    [cljs-bean.core :as bean]
-    [re-frame.core :as rf]))
+    [metaverse.utils.transit :as t]
+    [re-frame.core :as rf]
+    [tenet.response :as r]))
 
 
 (rf/reg-fx
   :api/dispatch
   (fn [{:keys [event on-success on-failure]}]
-    (-> (.. js/window -bridge (dispatch (bean/->js event)))
-        (.then #(rf/dispatch (conj on-success (bean/bean % :recursive true))))
-        (.catch #(rf/dispatch (conj on-failure (bean/bean % :recursive true)))))))
+    (-> (.. js/window -bridge (dispatch (t/write event)))
+        (t/then-read)
+        (.then (fn [res]
+                 (if (r/anomaly? res)
+                   (rf/dispatch (conj on-failure res))
+                   (rf/dispatch (conj on-success res)))))
+        (.catch (fn [error]
+                  (rf/dispatch (conj on-failure error)))))))
