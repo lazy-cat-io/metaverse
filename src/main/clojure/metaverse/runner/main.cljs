@@ -1,6 +1,5 @@
 (ns metaverse.runner.main
   (:require
-    [cljs-bean.core :as bean]
     [clojure.string :as str]
     [metaverse.electron.app :as app]
     [metaverse.electron.ipc-main :as ipc-main]
@@ -42,7 +41,7 @@
 
 
 (defn ready-to-show-handler
-  [window tray]
+  [_window _tray]
   (fn []))
 
 

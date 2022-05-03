@@ -26,7 +26,7 @@
 (rf/reg-event-fx
   ::init
   [(rf/inject-cofx :local-storage/get-items [:metaverse/theme :metaverse/user])]
-  (fn-traced [{{:metaverse/keys [theme user] :as local-storage} :local-storage} _]
+  (fn-traced [{{:metaverse/keys [theme user]} :local-storage} _]
     (let [theme (or theme system-theme)]
       {:db {:app  {:initialized? false}
             :user user}

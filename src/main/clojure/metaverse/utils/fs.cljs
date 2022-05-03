@@ -12,7 +12,7 @@
   ([file data options]
    (try
      (.writeFileSync fs file data options)
-     (catch :default e))))
+     (catch :default _e))))
 
 
 (defn write-file
@@ -21,7 +21,7 @@
   ([file data options callback]
    (try
      (.writeFile fs file data options callback)
-     (catch :default e))))
+     (catch :default _e))))
 
 
 (defn mkdir
