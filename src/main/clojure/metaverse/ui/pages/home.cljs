@@ -1,6 +1,5 @@
 (ns metaverse.ui.pages.home
   (:require
-    [metaverse.logger :as log :include-macros true]
     [metaverse.ui.api]
     [metaverse.ui.components.heroicons.outline :as icons]
     [re-frame.core :as rf]))
@@ -73,15 +72,17 @@
 
 (rf/reg-event-fx
   ::sign-in->success
-  (fn [cofx [_ res]]
-    (log/info ::sign-in->success res)
+  (fn [_ [_ res]]
+    (js/console.log "sign-in->success" (pr-str res))
+    (js/alert (pr-str res))
     {:local-storage/set-item [:metaverse/user res]}))
 
 
 (rf/reg-event-fx
   ::sign-in->failure
-  (fn [cofx [_ res]]
-    (log/info ::sign-in->failure res)
+  (fn [_ [_ res]]
+    (js/console.log "sign-in->failure" (pr-str res))
+    (js/alert (pr-str res))
     {:local-storage/remove-item [:metaverse/user]}))
 
 
@@ -96,14 +97,16 @@
 (rf/reg-event-fx
   ::sign-out->success
   (fn [_ [_ res]]
-    (log/info ::sign-out->success res)
+    (js/console.log "sign-out->success" (pr-str res))
+    (js/alert (pr-str res))
     {:local-storage/remove-item :metaverse/user}))
 
 
 (rf/reg-event-fx
   ::sign-out->failure
   (fn [_ [_ res]]
-    (log/info ::sign-out->failure res)
+    (js/console.log "sign-out->failure" (pr-str res))
+    (js/alert (pr-str res))
     {:local-storage/remove-item :metaverse/user}))
 
 
@@ -136,7 +139,11 @@
 
    [:div
     [:button
-     {:on-click #(rf/dispatch [::sign-in {:email "john@doe.com", :password "secret"}])}
+     {:on-click #(rf/dispatch [::sign-in {:email "john@doe.com", :password "p4$$w0rd1"}])}
+     "Sign-in via email (bad credentials)"]
+
+    [:button
+     {:on-click #(rf/dispatch [::sign-in {:email "john@doe.com", :password "p4$$w0rd"}])}
      "Sign-in via email"]
 
     [:button

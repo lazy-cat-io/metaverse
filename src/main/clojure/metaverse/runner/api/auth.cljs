@@ -64,17 +64,17 @@
 
 (comment
   ;; sign-up
-  (-> (supabase/auth:sign-up {:email "john@doe", :password "p4$$w0rd"})
+  (-> (supabase/auth:sign-up {:email "john@doe.com", :password "p4$$w0rd"})
       (.then (fn [res]
                (log/info :sign-up res))))
 
   ;; wrong password
-  (-> (sign-in {:email "john@doe", :password "p4$$w0rd1"})
+  (-> (sign-in {:email "john@doe.com", :password "p4$$w0rd1"})
       (.then (fn [res]
                (log/info :sign-in res))))
 
   ;; correct password
-  (-> (sign-in {:email "john@doe", :password "p4$$w0rd"})
+  (-> (sign-in {:email "john@doe.com", :password "p4$$w0rd"})
       (.then (fn [res]
                (log/info :sign-in res))))
 
