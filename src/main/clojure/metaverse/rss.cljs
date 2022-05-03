@@ -12,11 +12,11 @@
   ([url {:keys [on-success on-failure]
          :or   {on-success identity
                 on-failure identity}}]
-   (log/info :msg "fetch rss" :url url)
+   (log/debug :msg "RSS feed downloading has started" :url url)
    (-> (get-feed url)
        (p/then (fn [response]
-                 (log/info :msg "fetch rss successful" :url url)
+                 (log/debug :msg "RSS feed was downloaded successfully" :url url)
                  (on-success (r/as-success response))))
        (p/catch (fn [error]
-                  (log/error :msg "fetch rss failed" :url url :error error)
+                  (log/error :msg "RSS feed was downloaded with an error" :url url :error error)
                   (on-failure (r/as-error error)))))))
