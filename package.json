@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.174",
+  "version": "0.1.196",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -29,16 +29,17 @@
   ],
   "main": "public/main.js",
   "scripts": {
-    "assets:icon:build": "npx electron-icon-builder -i public/assets/images/icon.png -o public/assets",
+    "postinstall": "electron-builder install-app-deps",
+    "assets:icon:build": "electron-icon-builder -i public/assets/images/icon.png -o public/assets",
     "assets:runner:clean": "rm -rf public/main.js",
     "assets:downloader:clean": "rm -rf public/downloader.js",
     "assets:app:clean": "rm -rf public/assets/js",
     "assets:clean": "rm -rf public/assets/styles/bundle.css && npm run assets:runner:clean && npm run assets:downloader:clean && npm run assets:app:clean",
     "assets:watch": "npx cross-env TAILWIND_MODE=watch postcss src/main/css/index.css --output public/assets/styles/bundle.css --verbose --watch",
-    "assets:build": "npx cross-env NODE_ENV=production postcss src/main/css/index.css --output public/assets/styles/bundle.css --verbose",
+    "assets:build": "npm run assets:icon:build && npx cross-env NODE_ENV=production postcss src/main/css/index.css --output public/assets/styles/bundle.css --verbose",
     "electron:clean": "rm -rf dist",
     "electron:watch": "npx electron .",
-    "electron:build": "npx electron-builder build --publish never",
+    "electron:build": "electron-builder build",
     "shadow:watch": "npx shadow-cljs watch runner downloader app test",
     "shadow:build": "npx shadow-cljs release runner downloader app",
     "test:build": "npx shadow-cljs compile ci",
@@ -94,12 +95,12 @@
       "!public/test/**/*"
     ],
     "directories": {
-      "app": ".",
       "buildResources": "public/assets",
       "output": "dist"
     },
+    "publish": null,
     "mac": {
-      "category": "Development",
+      "category": "public.app-category.developer-tools",
       "identity": null,
       "target": {
         "target": "default",
