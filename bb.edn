@@ -26,15 +26,15 @@
                     :task       (print -version)}
 
   version:bump     {:doc        "Bump version"
-                    :print-doc? false
                     :task       (shell (str "npm version " -version))}
 
   project          {:doc        "Show project info"
                     :print-doc? false
                     :task       (print/pretty -project)}
 
-  build.edn        {:doc  "Generate build.edn"
-                    :task (project/write-build-info -project)}
+  build.edn        {:doc     "Generate build.edn"
+                    :depends [version:bump]
+                    :task    (project/write-build-info -project)}
 
   outdated         {:doc  "Check for outdated dependencies"
                     :task (shell "npm run outdated")}
