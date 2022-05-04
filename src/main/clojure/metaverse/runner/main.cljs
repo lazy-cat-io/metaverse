@@ -11,10 +11,10 @@
     ;; runner api deps
     [metaverse.runner.api.auth]
     [metaverse.runner.config :as config]
-    [metaverse.runner.menu :as runner.menu]
+    [metaverse.runner.main.menu :as main.menu]
+    [metaverse.runner.main.tray :as main.tray]
+    [metaverse.runner.main.window :as main.window]
     [metaverse.runner.reporter :as reporter]
-    [metaverse.runner.tray :as runner.tray]
-    [metaverse.runner.window :as runner.window]
     [metaverse.supabase :as supabase]
     [metaverse.utils.platform :as platform]
     [metaverse.utils.transit :as t]))
@@ -36,8 +36,8 @@
 (defn closed-handler
   {:dev/before-load true}
   []
-  (window/destroy!)
-  (tray/destroy!))
+  (main.window/destroy!)
+  (main.tray/destroy!))
 
 
 (defn ready-to-show-handler
@@ -54,7 +54,7 @@
 (defn tray-click-handler
   [window]
   (fn [_event bounds]
-    (let [bounds (runner.window/calculate-window-position window bounds)]
+    (let [bounds (main.window/calculate-window-position window bounds)]
       (window/set-bounds window bounds)
       (window/toggle-window window))))
 
@@ -125,15 +125,15 @@
 (defn mount
   {:dev/after-load true}
   []
-  (let [window (runner.window/create-window)
-        menu   (runner.menu/create-menu window)
-        tray   (runner.tray/create-tray window)]
+  (let [window (main.window/create-window)
+        menu   (main.menu/create-menu window)
+        tray   (main.tray/create-tray window)]
     (app/dock-hide)
     (setup-global-shortcuts! window)
     (tray/set-tooltip tray config/title)
     (menu/set-application-menu menu)
-    (window/set-instance! window)
-    (runner.window/load-app window)
+    (main.window/set-instance! window)
+    (main.window/load-app window)
     (window/on :closed window closed-handler)
     (window/on :ready-to-show window (ready-to-show-handler window tray))
     (tray/on :click tray (tray-click-handler window))

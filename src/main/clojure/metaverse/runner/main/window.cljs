@@ -1,8 +1,26 @@
-(ns metaverse.runner.window
+(ns metaverse.runner.main.window
   (:require
     [metaverse.electron.window :as window]
     [metaverse.runner.config :as config]
     [metaverse.utils.platform :as platform]))
+
+
+(defonce *ref (atom nil))
+
+
+(defn set-instance!
+  [window]
+  (window/set-instance! *ref window))
+
+
+(defn reset-instance!
+  []
+  (window/reset-instance! *ref))
+
+
+(defn destroy!
+  []
+  (window/destroy! *ref))
 
 
 (defn load-app

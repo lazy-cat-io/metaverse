@@ -1,27 +1,26 @@
 (ns metaverse.electron.window
   (:require
-    [metaverse.electron :as electron]
-    [metaverse.electron.refs :as refs]))
+    [metaverse.electron :as electron]))
 
 
 (defn get-instance
-  []
-  @refs/*window)
+  [^Atom *ref]
+  @*ref)
 
 
 (defn set-instance!
-  [window]
-  (reset! refs/*window window))
+  [^Atom *ref window]
+  (reset! *ref window))
 
 
 (defn reset-instance!
-  []
-  (set-instance! nil))
+  [^Atom *ref]
+  (set-instance! *ref nil))
 
 
 (defn destroy!
-  []
-  (reset-instance!))
+  [^Atom *ref]
+  (reset-instance! *ref))
 
 
 (defn load-url

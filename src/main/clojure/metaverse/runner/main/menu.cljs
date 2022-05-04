@@ -1,4 +1,4 @@
-(ns metaverse.runner.menu
+(ns metaverse.runner.main.menu
   (:require
     [metaverse.electron.menu :as menu]
     [metaverse.electron.window :as window]

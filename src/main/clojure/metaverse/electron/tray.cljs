@@ -1,35 +1,34 @@
 (ns metaverse.electron.tray
   (:require
     [metaverse.electron :as electron]
-    [metaverse.electron.icon :as icon]
-    [metaverse.electron.refs :as refs]))
+    [metaverse.electron.icon :as icon]))
 
 
 (defn ^js/electron.Tray get-instance
-  []
-  @refs/*tray)
+  [^Atom *ref]
+  @*ref)
 
 
 (defn set-instance!
-  [tray]
-  (reset! refs/*tray tray))
+  [^Atom *ref tray]
+  (reset! *ref tray))
 
 
 (defn reset-instance!
-  []
-  (set-instance! nil))
+  [^Atom *ref]
+  (set-instance! *ref nil))
+
+
+(defn destroy!
+  [*ref]
+  (when-some [tray (get-instance *ref)]
+    (.destroy tray)
+    (reset-instance! *ref)))
 
 
 (defn tray
   ([] (electron/Tray. (icon/create-empty)))
   ([icon-path] (electron/Tray. (icon/create-from-path icon-path))))
-
-
-(defn destroy!
-  []
-  (when-some [tray (get-instance)]
-    (.destroy tray)
-    (reset-instance!)))
 
 
 (defn set-tooltip
