@@ -1,6 +1,6 @@
 (ns metaverse.runner.shell
   (:require
-    [metaverse.electron :as electron]))
+    [metaverse.runner.electron :as electron]))
 
 
 (defn open-external

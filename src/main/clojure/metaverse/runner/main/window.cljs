@@ -1,8 +1,8 @@
 (ns metaverse.runner.main.window
   (:require
-    [metaverse.electron.window :as window]
     [metaverse.runner.config :as config]
-    [metaverse.utils.platform :as platform]))
+    [metaverse.runner.electron.window :as window]
+    [metaverse.runner.utils.platform :as platform]))
 
 
 (defonce *ref (atom nil))

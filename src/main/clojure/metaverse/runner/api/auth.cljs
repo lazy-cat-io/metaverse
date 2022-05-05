@@ -1,8 +1,8 @@
 (ns metaverse.runner.api.auth
   (:require
-    [metaverse.logger :as log :include-macros true]
+    [metaverse.common.logger :as log :include-macros true]
+    [metaverse.common.supabase :as supabase]
     [metaverse.runner.api :as api]
-    [metaverse.supabase :as supabase]
     [tenet.response :as r]))
 
 

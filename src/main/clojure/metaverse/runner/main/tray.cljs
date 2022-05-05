@@ -1,8 +1,8 @@
 (ns metaverse.runner.main.tray
   (:require
-    [metaverse.electron.tray :as tray]
+    [metaverse.runner.electron.tray :as tray]
     [metaverse.runner.path :as path]
-    [metaverse.utils.path :as utils.path]))
+    [metaverse.runner.utils.path :as utils.path]))
 
 
 (defonce *ref (atom nil))

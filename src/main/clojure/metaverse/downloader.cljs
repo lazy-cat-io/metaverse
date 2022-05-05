@@ -1,19 +1,19 @@
 (ns metaverse.downloader
   (:require
-    [metaverse.downloader.reporter :as reporter]
-    [metaverse.logger :as log]
-    [metaverse.supabase :as supabase]))
+    [metaverse.common.logger :as log]
+    [metaverse.common.supabase :as supabase]
+    [metaverse.downloader.sentry :as sentry]))
 
 
 (defn setup-tools
   []
   (log/init!)
-  (reporter/init!)
+  (sentry/init!)
   (supabase/init!))
 
 
-(defn init!
-  "Downloader initializer."
+(defn -main
+  "Downloader entry point."
   {:export true}
   [& _args]
   (setup-tools)

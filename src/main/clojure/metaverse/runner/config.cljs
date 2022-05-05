@@ -1,7 +1,7 @@
 (ns metaverse.runner.config
   (:require
-    [metaverse.env :as env]
-    [metaverse.utils.os :as os]))
+    [metaverse.common.env :as env]
+    [metaverse.runner.utils.os :as os]))
 
 
 ;;
@@ -16,10 +16,10 @@
 ;; URLs
 ;;
 
-(def ^:const root-dir js/__dirname)
+(def root-dir js/__dirname)
 
 
-(def ^:const index-url
+(def index-url
   (if env/develop?
     "http://localhost:3000/index.html"
     (str "file://" root-dir "/index.html")))
@@ -30,29 +30,29 @@
 ;; Window options
 ;;
 
-(def ^:const height 800)
-(def ^:const width 600)
+(def height 800)
+(def width 600)
 
-(def ^:const always-on-top? false)
-(def ^:const center? false)
-(def ^:const closable? true)
-(def ^:const devtools? env/develop?)
-(def ^:const frame? false)
-(def ^:const full-screenable? true)
-(def ^:const maximizable? true)
-(def ^:const minimizable? true)
-(def ^:const movable? true)
-(def ^:const resizable? true)
-(def ^:const show? false)
-(def ^:const title env/product-name)
-(def ^:const title-bar-overlay? false)
-(def ^:const title-bar-style :hidden)
-(def ^:const use-content-size? true)
+(def always-on-top? false)
+(def center? false)
+(def closable? true)
+(def devtools? env/develop?)
+(def frame? false)
+(def full-screenable? true)
+(def maximizable? true)
+(def minimizable? true)
+(def movable? true)
+(def resizable? true)
+(def show? false)
+(def title env/product-name)
+(def title-bar-overlay? false)
+(def title-bar-style :hidden)
+(def use-content-size? true)
 
-(def ^:const node-integration? false)
-(def ^:const sandbox? false)
-(def ^:const web-security? true)
-(def ^:const preload-file (str root-dir "/preload.js"))
+(def node-integration? false)
+(def sandbox? false)
+(def web-security? true)
+(def preload-file (str root-dir "/preload.js"))
 
 
 

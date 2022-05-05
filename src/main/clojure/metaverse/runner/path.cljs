@@ -1,7 +1,7 @@
 (ns metaverse.runner.path
   (:require
     [metaverse.runner.config :as config]
-    [metaverse.utils.path :as path]))
+    [metaverse.runner.utils.path :as path]))
 
 
 (def assets-dir

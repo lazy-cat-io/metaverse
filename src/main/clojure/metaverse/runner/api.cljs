@@ -1,6 +1,6 @@
 (ns metaverse.runner.api
   (:require
-    [metaverse.logger :as log :include-macros true]
+    [metaverse.common.logger :as log :include-macros true]
     [metaverse.runner.shell :as shell]
     [tenet.response :as r]))
 

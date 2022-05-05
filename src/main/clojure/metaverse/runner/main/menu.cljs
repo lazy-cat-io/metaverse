@@ -1,10 +1,10 @@
 (ns metaverse.runner.main.menu
   (:require
-    [metaverse.electron.menu :as menu]
-    [metaverse.electron.window :as window]
-    [metaverse.env :as env]
+    [metaverse.common.env :as env]
     [metaverse.runner.config :as config]
-    [metaverse.utils.platform :as platform]))
+    [metaverse.runner.electron.menu :as menu]
+    [metaverse.runner.electron.window :as window]
+    [metaverse.runner.utils.platform :as platform]))
 
 
 (defn create-menu

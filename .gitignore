@@ -16,11 +16,11 @@ coverage
 dist
 design/backgrounds
 node_modules
-public/assets/js
 public/assets/styles
-public/test
 public/downloader.js
-public/main.js
+public/js
+public/runner.js
+public/test
 target
 build.edn
 *.iml
