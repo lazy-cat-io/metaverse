@@ -8,7 +8,6 @@
     [metaverse.electron.window :as window]
     [metaverse.logger :as log :include-macros true]
     [metaverse.runner.api :as api]
-    ;; runner api deps
     [metaverse.runner.api.auth]
     [metaverse.runner.config :as config]
     [metaverse.runner.main.menu :as main.menu]
@@ -17,7 +16,8 @@
     [metaverse.runner.reporter :as reporter]
     [metaverse.supabase :as supabase]
     [metaverse.utils.platform :as platform]
-    [metaverse.utils.transit :as t]))
+    [metaverse.utils.transit :as t]
+    [tenet.response :as r]))
 
 
 (declare mount)
@@ -31,6 +31,14 @@
   [_event has-visible-windows?]
   (when-not has-visible-windows?
     (mount)))
+
+
+(defn open-url-handler
+  [_event url]
+  (when (str/starts-with? url "metaverse://app")
+    (let [window       ^js/electron.BrowserWindow (main.window/get-instance)
+          web-contents ^js/electron.BrowserWindow.webContents (.. window -webContents)]
+      (.send web-contents "dispatch" (t/write (r/as-success [:open-url url]))))))
 
 
 (defn closed-handler
@@ -59,34 +67,17 @@
       (window/toggle-window window))))
 
 
-(defn web-contents-created-handler
-  [_event ^js/electron.BrowserWindow.webContents contents]
-  (.on contents "will-attach-webview"
-       (fn [event web-preferences params]
-         (js-delete web-preferences "preload")
-         (js-delete web-preferences "preloadURL")
-         (aset web-preferences "nodeIntegration" false)
-         (log/info "web-preferences" web-preferences)
-         (log/info "web-preferences" params)
-         (when-not (str/starts-with? (.. params -src) "https://github.com")
-           (log/info "preventDefault event" event)
-           (.preventDefault event))))
-
-  (.on contents "will-navigate"
-       (fn [event navigation-url]
-         (let [parsed-url (js/URL. navigation-url)]
-           (log/info "navigation-url" navigation-url)
-           (log/info "parsed-url" parsed-url)
-           (when-not (= "https://github.com" (.. parsed-url -origin))
-             (log/info "preventDefault event" event)
-             (.preventDefault event))))))
-
-
-(defn dispatch-handler
+(defn invoke-handler
   [ipc-event event]
   (let [event (t/read event)]
-    (-> (api/dispatch ipc-event event)
+    (-> (api/invoke ipc-event event)
         (t/then-write))))
+
+
+(defn send-handler
+  [ipc-event event]
+  (let [event (t/read event)]
+    (api/invoke ipc-event event)))
 
 
 ;;
@@ -129,16 +120,15 @@
         menu   (main.menu/create-menu window)
         tray   (main.tray/create-tray window)]
     (app/dock-hide)
+    (app/set-as-default-protocol-client "metaverse")
     (setup-global-shortcuts! window)
     (tray/set-tooltip tray config/title)
     (menu/set-application-menu menu)
     (main.window/set-instance! window)
     (main.window/load-app window)
-    (window/on :closed window closed-handler)
-    (window/on :ready-to-show window (ready-to-show-handler window tray))
-    (tray/on :click tray (tray-click-handler window))
-    (ipc-main/remove-handler! :dispatch)
-    (ipc-main/handle :dispatch dispatch-handler)))
+    (window/on "closed" window closed-handler)
+    (window/on "ready-to-show" window (ready-to-show-handler window tray))
+    (tray/on "click" tray (tray-click-handler window))))
 
 
 
@@ -149,7 +139,11 @@
 (defn init!
   []
   (setup!)
-  (app/on :ready mount)
-  (app/on :activate activate-handler)
-  (app/on :window-all-closed window-all-closed-handler)
-  (app/on :web-contents-created web-contents-created-handler))
+  (app/on "ready" mount)
+  (app/on "activate" activate-handler)
+  (app/on "open-url" open-url-handler)
+  (app/on "window-all-closed" window-all-closed-handler)
+  (ipc-main/remove-all-listeners!)
+  (ipc-main/handle "invoke" invoke-handler)
+  (ipc-main/on "send" send-handler))
+
