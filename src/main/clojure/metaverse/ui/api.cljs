@@ -6,9 +6,9 @@
 
 
 (rf/reg-fx
-  :api/dispatch
+  :api/invoke
   (fn [{:keys [event on-success on-failure]}]
-    (-> (.. js/window -bridge (dispatch (t/write event)))
+    (-> (.. js/window -bridge (invoke (t/write event)))
         (t/then-read)
         (.then (fn [res]
                  (if (r/anomaly? res)
@@ -16,3 +16,9 @@
                    (rf/dispatch (conj on-success res)))))
         (.catch (fn [error]
                   (rf/dispatch (conj on-failure error)))))))
+
+
+(rf/reg-fx
+  :api/send
+  (fn [event]
+    (.. js/window -bridge (send (t/write event)))))
