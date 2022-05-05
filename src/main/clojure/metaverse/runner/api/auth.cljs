@@ -1,6 +1,5 @@
 (ns metaverse.runner.api.auth
   (:require
-    [applied-science.js-interop :as j]
     [metaverse.logger :as log :include-macros true]
     [metaverse.runner.api :as api]
     [metaverse.supabase :as supabase]
@@ -18,10 +17,10 @@
 (defmethod sign-in :incorrect
   [_]
   (let [message "Unknown provider"]
-    (log/error :msg message)
+    (log/error :msg message :event-id :sign-in)
     (js/Promise.
       (fn [resolve _reject]
-        (resolve (r/as-incorrect {:message message}))))))
+        (resolve (r/as-incorrect {:message message, :event-id :sign-in}))))))
 
 
 
@@ -32,7 +31,7 @@
       (.then (fn [res]
                (if (r/anomaly? res)
                  res
-                 (update res :data #(j/get % :data)))))))
+                 (update res :data :data))))))
 
 
 (defmethod sign-in :provider
@@ -42,8 +41,7 @@
       (.then (fn [res]
                (if (r/anomaly? res)
                  res
-                 ;; TODO: [2022-05-03, ilshat@sultanov.team] Open a window for signing in using the provider
-                 (update res :data #(j/select-keys % [:url :provider])))))))
+                 (update res :data #(select-keys % [:url :provider])))))))
 
 
 (defn sign-out
@@ -57,8 +55,8 @@
 ;; Public API
 ;;
 
-(defmethod api/dispatch :auth/sign-in [_ [_ credentials]] (sign-in credentials))
-(defmethod api/dispatch :auth/sign-out [_ _] (sign-out))
+(defmethod api/invoke :auth/sign-in [_ [_ credentials]] (sign-in credentials))
+(defmethod api/invoke :auth/sign-out [_ _] (sign-out))
 
 
 
