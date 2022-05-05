@@ -2,9 +2,9 @@
   (:require
     ["@supabase/supabase-js" :as supabase]
     [applied-science.js-interop :as j]
-    [cljs-bean.core :as b]
     [metaverse.env :as env]
     [metaverse.logger :as log :include-macros true]
+    [metaverse.utils.bean :as b]
     [tenet.response :as r]))
 
 
@@ -31,24 +31,13 @@
        (r/as-success supabase))
      (catch :default e
        (log/error :msg "Failed to initialize the Supabase" :url url :error e)
-       (r/as-error e)))))
+       (r/as-error (b/bean e))))))
 
 
 
 ;;
 ;; Helpers
 ;;
-
-(defn bean
-  [^js x]
-  (when (some? x)
-    (b/bean x :recursive true)))
-
-
-(defn then-bean
-  [^js promise]
-  (.then promise bean))
-
 
 (defn then-response
   [^js promise]
@@ -57,8 +46,8 @@
     (fn [res]
       (let [error (j/get res :error)]
         (if error
-          (r/as-error (j/select-keys error [:message]))
-          (r/as-success res))))))
+          (r/as-error (b/bean (j/select-keys error [:message])))
+          (r/as-success (b/bean res)))))))
 
 
 (defn catch-error
