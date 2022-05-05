@@ -3,16 +3,28 @@
     [metaverse.electron :as electron]))
 
 
+(defn remove-handler!
+  [channel]
+  (.removeHandler electron/IpcMain channel))
+
+
+(defn remove-listener!
+  [channel listener]
+  (.removeListener electron/IpcMain channel listener))
+
+
+(defn remove-all-listeners!
+  ([]
+   (.removeAllListeners electron/IpcMain))
+  ([channel]
+   (.removeAllListeners electron/IpcMain channel)))
+
+
 (defn on
-  [event handler]
-  (.on electron/IpcMain (name event) handler))
+  [channel listener]
+  (.on electron/IpcMain channel listener))
 
 
 (defn handle
-  [channel handler]
-  (.handle electron/IpcMain (name channel) handler))
-
-
-(defn remove-handler!
-  [channel]
-  (.removeHandler electron/IpcMain (name channel)))
+  [channel listener]
+  (.handle electron/IpcMain channel listener))
