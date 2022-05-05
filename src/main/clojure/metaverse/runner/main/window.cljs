@@ -8,6 +8,11 @@
 (defonce *ref (atom nil))
 
 
+(defn get-instance
+  []
+  (window/get-instance *ref))
+
+
 (defn set-instance!
   [window]
   (window/set-instance! *ref window))
