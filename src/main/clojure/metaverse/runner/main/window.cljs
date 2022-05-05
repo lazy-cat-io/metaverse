@@ -66,10 +66,7 @@
    :titleBarStyle   config/title-bar-style
    :useContentSize  config/use-content-size?
    :width           config/width
-   :webPreferences  {:nodeIntegration config/node-integration?
-                     :webSecurity     config/web-security?
-                     :sandbox         config/sandbox?
-                     :preload         config/preload-file}})
+   :webPreferences  {:preload config/preload-file}})
 
 
 (defn create-window
