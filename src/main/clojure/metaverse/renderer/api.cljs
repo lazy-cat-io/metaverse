@@ -5,6 +5,14 @@
     [tenet.response :as r]))
 
 
+(defn init!
+  []
+  (.. js/window -bridge
+      (dispatch (fn [_ipc-event event]
+                  (let [event (t/read event)]
+                    (rf/dispatch @event))))))
+
+
 (rf/reg-fx
   :api/invoke
   (fn [{:keys [event on-success on-failure]}]

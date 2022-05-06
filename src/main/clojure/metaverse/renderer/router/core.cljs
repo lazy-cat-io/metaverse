@@ -12,20 +12,13 @@
 (def routes
   [""
    ["/" {:name :page/home, :private false}]
-   ["/sign-in"
-    ["/" {:name :page/sign-in, :private false}]
-    ["/github" {:name :page/sign-in.github, :private false}]]
+   ["/sign-in" {:name :page/sign-in, :private false}]
    ["/news" {:name :page/news, :private false}]
-   ["/projects"
-    ["/" {:name :page/projects, :private false}]
-    ["/trends" {:name :page/projects.trends, :private false}]]
+   ["/projects" {:name :page/projects, :private false}]
    ["/jobs" {:name :page/jobs, :private false}]
    ["/docs" {:name :page/docs, :private false}]
-   ["/initializer"
-    ["" {:name :page/initializer, :private false}]]
-   ["/profile"
-    ["/" {:name :page/profile, :private false}]
-    ["/settings" {:name :page/profile.settings, :private false}]]])
+   ["/initializer" {:name :page/initializer, :private false}]
+   ["/profile" {:name :page/profile, :private false}]])
 
 
 (def router
