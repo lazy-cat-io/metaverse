@@ -101,7 +101,6 @@
     (.apply auth-fn api args)))
 
 
-(def auth:get-user (comp then+catch (partial auth :getUser)))
 (def auth:on-auth-state-change (comp then+catch (partial auth :onAuthStateChange)))
 (def auth:reset-password-for-email (comp then+catch (partial auth :resetPasswordForEmail)))
 (def auth:session (comp then+catch (partial auth :session)))
@@ -114,6 +113,7 @@
 
 
 ;; Server only
+(def auth:api:get-user (comp then+catch (partial auth:api :getUser)))
 (def auth:api:create-user (comp then+catch (partial auth:api :createUser)))
 (def auth:api:delete-user (comp then+catch (partial auth:api :deleteUser)))
 (def auth:api:generate-link (comp then+catch (partial auth:api :generateLink)))
