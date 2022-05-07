@@ -37,7 +37,7 @@
    ["/jobs" {:name :page/jobs, :private false}]
    ["/docs" {:name :page/docs, :private false}]
    ["/initializer" {:name :page/initializer, :private false}]
-   ["/profile" {:name :page/profile, :private false}]
+   ["/profile" {:name :page/profile, :private true}]
    ["/oauth/:provider/callback"
     {:name        :page/oauth.provider.callback
      :private     false
