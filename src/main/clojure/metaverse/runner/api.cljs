@@ -21,4 +21,4 @@
 
 (defmethod invoke :open-url
   [_ipc-event [_ url]]
-  (shell/open-external url))
+  (some->> url (shell/open-external)))
