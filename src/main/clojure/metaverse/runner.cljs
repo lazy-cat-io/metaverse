@@ -70,14 +70,14 @@
 
 (defn invoke-handler
   [ipc-event event]
-  (let [event (t/read event)]
+  (when-some [event (t/read event)]
     (-> (api/invoke ipc-event event)
         (t/then-write))))
 
 
 (defn send-handler
   [ipc-event event]
-  (let [event (t/read event)]
+  (when-some [event (t/read event)]
     (api/invoke ipc-event event)))
 
 
