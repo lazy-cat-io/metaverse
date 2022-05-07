@@ -49,6 +49,23 @@
     (get-in db [:app :initialized?] false)))
 
 
+;; Readiness
+
+(rf/reg-sub
+  :app/readiness
+  (fn [db]
+    (get-in db [:app :readiness])))
+
+
+(rf/reg-event-fx
+  :set-readiness
+  (fn [{db :db} [_ key state]]
+    (case state
+      :ready {:db             (assoc-in db [:app :readiness key] state)
+              :dispatch-later [{:ms 1500, :dispatch [:set-readiness key nil]}]}
+      nil {:db (update-in db [:app :readiness] dissoc key)}
+      {:db (assoc-in db [:app :readiness key] state)})))
+
 
 ;; Theme
 
