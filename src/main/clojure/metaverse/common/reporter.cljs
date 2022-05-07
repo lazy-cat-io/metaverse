@@ -27,8 +27,7 @@
                            :debug            env/develop?
                            :release          (str/format "%s@%s:%s" env/company-name env/product-name version)
                            :initialScope     {:build build}}
-                          (merge opts)
-                          (clj->js))
-             reporter (.init sentry opts')]
+                          (merge opts))
+             reporter (.init sentry (clj->js opts'))]
          (log/info :msg "Sentry reporter successfully initialized" :opts opts')
          (r/as-success reporter))))))
