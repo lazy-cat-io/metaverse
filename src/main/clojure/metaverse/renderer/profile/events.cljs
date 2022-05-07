@@ -41,6 +41,14 @@
 
 
 (rf/reg-event-fx
+  :auth/sign-out
+  (fn [{db :db} _]
+    {:local-storage/remove-items [:metaverse/user :metaverse/auth]
+     :navigation/redirect        {:route-name :page/sign-in}
+     :api/send                   [:auth/sign-out]}))
+
+
+(rf/reg-event-fx
   :auth/user->success
   (fn [{db :db} [_ res]]
     (let [user @res]
