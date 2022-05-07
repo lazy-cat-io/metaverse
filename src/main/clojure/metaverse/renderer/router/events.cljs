@@ -3,6 +3,7 @@
     [day8.re-frame.tracing :refer-macros [fn-traced]]
     [metaverse.common.logger :as log :include-macros true]
     [re-frame.core :as rf]
+    [reitit.frontend :as rrf]
     [reitit.frontend.controllers :as rfc]
     [reitit.frontend.easy :as rfe]))
 
@@ -30,51 +31,70 @@
         (nil? route)
         (if-not authenticated?
           {:navigation/redirect {:route-name :page/sign-in}}
-          {:navigation/redirect {:route-name :page/explore}})
+          {:navigation/redirect {:route-name :page/home}})
 
         ;; if route is private and user is not authenticated
         (and private? (not authenticated?))
         {:navigation/redirect {:route-name :page/sign-in}
          ;; FIXME: [2022-02-15, ilshat@sultanov.team] Add a translator and uncomment the code below
          ;; :notification        {:level           :error
-         ;;                      :i18n/translator (get-in db [:i18n :translator])
-         ;;                      :i18n/key        :auth/unauthorized}
+         ;;                       :i18n/translator (get-in db [:i18n :translator])
+         ;;                       :i18n/key        :auth/unauthorized}
          }
 
         ;; if route is not private or user is authenticated
         (or (not private?) authenticated?)
-        (let [old-route        (:router db)
+        (let [old-route        (get-in db [:navigation :route])
               old-controllers  (:controllers old-route)
               ;; if it is necessary to check user roles - add roles for the corresponding routes and add a check the user role before navigation
               next-controllers (rfc/apply-controllers old-controllers route)
               next-route       (assoc route :controllers next-controllers)]
           {:db (assoc-in db [:navigation :route] next-route)})
 
-        ;; otherwise, redirect to explore page
-        :else {:navigation/redirect {:route-name :page/explore}}))))
+        ;; otherwise, redirect to home page
+        :else {:navigation/redirect {:route-name :page/home}}))))
+
+
+(defn resolve-route
+  [router to]
+  (let [match (rrf/match-by-path router to)]
+    {:route-name   (get-in match [:data :name])
+     :path-params  (:path-params match)
+     :query-params (:query-params match)}))
+
+
+(defn set-state!
+  [f {:keys [router to] :as opts}]
+  (if (and router to)
+    (let [{:keys [route-name path-params query-params]} (resolve-route router to)]
+      (log/trace :msg "Navigate" :route-name route-name)
+      (f route-name path-params query-params))
+    (let [{:keys [route-name path-params query-params]} opts]
+      (log/trace :msg "Navigate" :route-name route-name)
+      (f route-name path-params query-params))))
 
 
 (rf/reg-fx
   :navigation/redirect
-  (fn [{:keys [route-name params query]}]
-    (log/trace :msg "Router redirect" :route-name route-name :params params :query query)
-    (rfe/push-state route-name params query)))
+  (fn [opts]
+    (set-state! rfe/push-state opts)))
 
 
 (rf/reg-event-fx
   :navigation/redirect
-  (fn-traced [_ [_ {:keys [route-name params query]}]]
-    {:navigation/redirect {:route-name route-name, :params params, :query query}}))
+  (fn-traced [{db :db} [_ {:keys [router to route-name path-params query-params]}]]
+    (let [router (or router (get-in db [:navigation :router]))]
+      {:navigation/redirect {:router router, :to to, :route-name route-name, :path-params path-params, :query-params query-params}})))
 
 
 (rf/reg-fx
   :navigation/replace
-  (fn [{:keys [route-name params query]}]
-    (log/trace :msg "Router replace" :route-name route-name :params params :query query)
-    (rfe/replace-state route-name params query)))
+  (fn [opts]
+    (set-state! rfe/replace-state opts)))
 
 
 (rf/reg-event-fx
   :navigation/replace
-  (fn-traced [_ [_ {:keys [route-name params query]}]]
-    {:navigation/replace {:route-name route-name, :params params, :query query}}))
+  (fn-traced [{db :db} [_ {:keys [router to route-name path-params query-params]}]]
+    (let [router (or router (get-in db [:navigation :router]))]
+      {:navigation/replace {:router router, :to to, :route-name route-name, :path-params path-params, :query-params query-params}})))
