@@ -1,14 +1,14 @@
 (ns metaverse.renderer.storage
   (:require
-    [metaverse.common.utils.bean :as b]
     [metaverse.common.utils.string :refer [keyword->string]]
+    [metaverse.common.utils.transit :as t]
     [re-frame.core :as rf]))
 
 
 (defn set-item!
   [key item]
   (when-some [key (keyword->string key)]
-    (let [item (.stringify js/JSON (b/->js item))]
+    (let [item (t/write item)]
       (.setItem js/localStorage key item))))
 
 
@@ -22,7 +22,7 @@
   [key]
   (when-some [key (keyword->string key)]
     (let [item (.getItem js/localStorage key)]
-      (b/->clj (.parse js/JSON item)))))
+      (t/read item))))
 
 
 (defn get-items
