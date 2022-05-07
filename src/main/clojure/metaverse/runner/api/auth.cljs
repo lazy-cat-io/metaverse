@@ -51,12 +51,23 @@
                (r/as-success)))))
 
 
+(defn user
+  [access-token]
+  (-> access-token
+      (supabase/auth:api:get-user)
+      (.then (fn [res]
+               (if (r/anomaly? res)
+                 res
+                 (update res :data :user))))))
+
+
 ;;
 ;; Public API
 ;;
 
 (defmethod api/invoke :auth/sign-in [_ [_ credentials]] (sign-in credentials))
 (defmethod api/invoke :auth/sign-out [_ _] (sign-out))
+(defmethod api/invoke :auth/user [_ [_ access-token]] (user access-token))
 
 
 
