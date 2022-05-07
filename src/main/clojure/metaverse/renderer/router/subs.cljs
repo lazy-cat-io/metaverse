@@ -7,7 +7,7 @@
 (rf/reg-sub
   :navigation/router
   (fn [db _]
-    (:router db)))
+    (get-in db [:navigation :router])))
 
 
 (rf/reg-sub
