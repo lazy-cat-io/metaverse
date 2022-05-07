@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.220",
+  "version": "0.1.223",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -48,8 +48,8 @@
     "repl": "concurrently --kill-others --names \"assets,shadow\" \"npm run assets:watch\" \"npm run shadow:watch\"",
     "test": "npm run assets:build && npm run test:build && npm run test:run",
     "build": "npm run shadow:build && npm run assets:build && npm run electron:build",
-    "outdated": "clojure -M:nop:outdated && npx ncu",
-    "outdated:upgrade": "clojure -M:nop:outdated:outdated/upgrade && npx ncu -u && npm i",
+    "outdated": "clojure -M:nop:outdated & npx ncu",
+    "outdated:upgrade": "clojure -M:nop:outdated:outdated/upgrade & npx ncu -u && npm i",
     "setup": "npm i -g electron-builder electron-icon-builder && npm i"
   },
   "devDependencies": {
