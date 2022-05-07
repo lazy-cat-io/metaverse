@@ -35,13 +35,13 @@
 
 
 (defmethod sign-in :provider
-  [{:keys [provider]}]
+  [{:keys [provider scopes redirect-to]}]
   (-> {:provider provider}
-      (supabase/auth:sign-in)
+      (supabase/auth:sign-in {:scopes scopes, :redirectTo redirect-to})
       (.then (fn [res]
                (if (r/anomaly? res)
                  res
-                 (update res :data #(select-keys % [:url :provider])))))))
+                 (update res :data #(select-keys % [:url :provider :user :session])))))))
 
 
 (defn sign-out
