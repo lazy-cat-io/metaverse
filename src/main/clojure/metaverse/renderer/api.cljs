@@ -1,5 +1,6 @@
 (ns metaverse.renderer.api
   (:require
+    [clojure.string :as str]
     [metaverse.common.utils.transit :as t]
     [re-frame.core :as rf]
     [tenet.response :as r]))
@@ -30,3 +31,23 @@
   :api/send
   (fn [event]
     (.. js/window -bridge (send (t/write event)))))
+
+
+;; TODO: [2022-05-07, ilshat@sultanov.team] Check the callback URL of other OAuth providers
+;; github: metaverse://app/oauth/github/callback#access_token=123...
+
+(defn prepare-url
+  [url]
+  (some-> url
+          (str/replace "metaverse://app" "")
+          (str/replace "#" "?")))
+
+
+(rf/reg-event-fx
+  :open-url
+  (fn [{db :db} [_ url]]
+    (if-not (and (string? url)
+                 (str/starts-with? url "metaverse://app"))
+      {}
+      {:navigation/redirect {:to     (prepare-url url)
+                             :router (get-in db [:navigation :router])}})))
