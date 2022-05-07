@@ -17,14 +17,16 @@
   (fn [{db :db} _]
     ;; TODO: [2022-05-07, ilshat@sultanov.team] Show notification
     {:db                         (dissoc db :user)
-     :navigation/redirect        {:route-name :page/sign-in}
+     :dispatch                   [:set-readiness :auth :failed]
+     :dispatch-later             [{:ms 1500, :dispatch [:navigation/redirect {:route-name :page/sign-in}]}]
      :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
 (rf/reg-event-fx
   :auth/sign-in.github
   (fn [_ _]
-    {:api/invoke {:event      [:auth/sign-in {:provider    "github"
+    {:dispatch   [:set-readiness :auth :loading]
+     :api/invoke {:event      [:auth/sign-in {:provider    "github"
                                               :scopes      "email"
                                               :redirect-to "metaverse://app/oauth/github/callback"}]
                   :on-success [:auth/sign-in.oauth->start]
@@ -55,7 +57,8 @@
     (let [user @res]
       ;; TODO: [2022-05-07, ilshat@sultanov.team] Redirect to previous page
       {:db                     (assoc db :user user)
-       :navigation/redirect    {:route-name :page/home}
+       :dispatch               [:set-readiness :auth :ready]
+       :dispatch-later         [{:ms 1500, :dispatch [:navigation/redirect {:route-name :page/home}]}]
        :local-storage/set-item [:metaverse/user @res]})))
 
 
@@ -64,13 +67,15 @@
   (fn [{db :db} _]
     ;; TODO: [2022-05-07, ilshat@sultanov.team] Show notification
     {:db                         (dissoc db :user)
-     :navigation/redirect        {:route-name :page/sign-in}
+     :dispatch                   [:set-readiness :auth :failed]
+     :dispatch-later             [{:ms 1500, :dispatch [:navigation/redirect {:route-name :page/sign-in}]}]
      :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
 (rf/reg-event-fx
   :auth/user
   (fn [_ [_ access-token]]
-    {:api/invoke {:event      [:auth/user access-token]
+    {:dispatch   [:set-readiness :auth :loading]
+     :api/invoke {:event      [:auth/user access-token]
                   :on-success [:auth/user->success]
                   :on-failure [:auth/user->failure]}}))
