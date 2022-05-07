@@ -17,8 +17,8 @@
   (fn [{db :db} _]
     ;; TODO: [2022-05-07, ilshat@sultanov.team] Show notification
     {:db                         (dissoc db :user)
-     :local-storage/remove-items [:metaverse/user :metaverse/auth]
-     :navigation/redirect        {:route-name :page/sign-in}}))
+     :navigation/redirect        {:route-name :page/sign-in}
+     :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
 (rf/reg-event-fx
@@ -36,16 +36,17 @@
   (fn [_ [_ res]]
     (let [auth @res]
       ;; TODO: [2022-05-07, ilshat@sultanov.team] set-auth for supabase?
-      {:local-storage/set-item [:metaverse/auth auth]
-       :dispatch               [:auth/user (:access-token auth)]})))
+      {:dispatch               [:auth/user (:access-token auth)]
+       :local-storage/set-item [:metaverse/auth auth]})))
 
 
 (rf/reg-event-fx
   :auth/sign-out
   (fn [{db :db} _]
-    {:local-storage/remove-items [:metaverse/user :metaverse/auth]
+    {:db                         (dissoc db :user)
+     :api/send                   [:auth/sign-out]
      :navigation/redirect        {:route-name :page/sign-in}
-     :api/send                   [:auth/sign-out]}))
+     :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
 (rf/reg-event-fx
@@ -54,8 +55,8 @@
     (let [user @res]
       ;; TODO: [2022-05-07, ilshat@sultanov.team] Redirect to previous page
       {:db                     (assoc db :user user)
-       :local-storage/set-item [:metaverse/user @res]
-       :navigation/redirect    {:route-name :page/home}})))
+       :navigation/redirect    {:route-name :page/home}
+       :local-storage/set-item [:metaverse/user @res]})))
 
 
 (rf/reg-event-fx
@@ -63,8 +64,8 @@
   (fn [{db :db} _]
     ;; TODO: [2022-05-07, ilshat@sultanov.team] Show notification
     {:db                         (dissoc db :user)
-     :local-storage/remove-items [:metaverse/user :metaverse/auth]
-     :navigation/redirect        {:route-name :page/sign-in}}))
+     :navigation/redirect        {:route-name :page/sign-in}
+     :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
 (rf/reg-event-fx
