@@ -1,12 +1,31 @@
 (ns metaverse.renderer.router.core
   (:require
+    [clojure.set :as set]
     [metaverse.common.logger :as log :include-macros true]
     [metaverse.renderer.router.events]
     [metaverse.renderer.router.subs]
     [re-frame.core :as rf]
     [reitit.coercion.malli :as rcm]
     [reitit.frontend :as rfr]
-    [reitit.frontend.easy :as rfe]))
+    [reitit.frontend.easy :as rfe]
+    [tenet.response :as r]))
+
+
+(defmulti prepare-parameters
+  (fn [{{:keys [provider]} :path}]
+    provider))
+
+
+(defmethod prepare-parameters "github"
+  [{:keys [query]}]
+  (-> query
+      (set/rename-keys
+        {:access_token   :access-token
+         :expires_in     :expires-in
+         :provider_token :provider-token
+         :refresh_token  :refresh-token
+         :token_type     :token-type})
+      (update :expires_in (fnil #(js/parseInt %) "3600"))))
 
 
 (def routes
@@ -18,7 +37,17 @@
    ["/jobs" {:name :page/jobs, :private false}]
    ["/docs" {:name :page/docs, :private false}]
    ["/initializer" {:name :page/initializer, :private false}]
-   ["/profile" {:name :page/profile, :private false}]])
+   ["/profile" {:name :page/profile, :private false}]
+   ["/oauth/:provider/callback"
+    {:name        :page/oauth.provider.callback
+     :private     false
+     :controllers [{:parameters {:path  [:provider]
+                                 :query [:access_token :expires_in :provider_token :refresh_token :token_type]}
+                    :start      (fn [{:keys [path] :as parameters}]
+                                  (case (:provider path)
+                                    ;; TODO: [2022-05-07, ilshat@sultanov.team] Handle error response from GitHub
+                                    "github" (rf/dispatch [:auth/sign-in.github->success (r/as-success (prepare-parameters parameters))])
+                                    (rf/dispatch [:auth/sign-in.oauth->failure (r/as-error {:message "Unknown OAuth provider"})])))}]}]])
 
 
 (def router
