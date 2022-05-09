@@ -40,7 +40,7 @@
     "electron:clean": "rm -rf dist",
     "electron:watch": "npx electron .",
     "electron:build": "electron-builder build --publish never",
-    "electron:deploy": "electron-builder build",
+    "electron:deploy": "electron-builder build --publish always",
     "shadow:watch": "npx shadow-cljs watch runner downloader renderer test",
     "shadow:build": "npx shadow-cljs release runner downloader renderer",
     "test:build": "npx shadow-cljs compile ci",
