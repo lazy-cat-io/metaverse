@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.243",
+  "version": "0.1.254",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -62,6 +62,7 @@
     "cssnano": "^5.1.7",
     "electron": "^18.2.0",
     "electron-builder": "^23.0.3",
+    "electron-notarize": "^1.2.1",
     "highlight.js": "11.5.1",
     "karma": "^6.3.19",
     "karma-chrome-launcher": "^3.1.1",
@@ -110,12 +111,12 @@
         "metaverse"
       ]
     },
+    "afterSign": "./build/notarize.js",
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": {
         "target": "default",
         "arch": [
-          "arm64",
           "x64"
         ]
       },
@@ -139,6 +140,9 @@
       "target": [
         "nsis"
       ]
+    },
+    "nsis": {
+      "oneClick": false
     },
     "linux": {
       "target": [
