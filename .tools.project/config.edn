@@ -1,2 +1,5 @@
 {:variables
- {}}
+ {:git/branch          #git "rev-parse --abbrev-ref HEAD"
+  :version/pre-release #case [#ref [:variables :git/branch]
+                              {"master" ""
+                               :default "-beta"}]}}
