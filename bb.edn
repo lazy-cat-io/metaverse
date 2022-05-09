@@ -25,8 +25,8 @@
                     :print-doc? false
                     :task       (print -version)}
 
-  version:bump     {:doc        "Bump version"
-                    :task       (shell (str "npm version " -version))}
+  version:bump     {:doc  "Bump version"
+                    :task (shell (str "npm version " -version))}
 
   project          {:doc        "Show project info"
                     :print-doc? false
@@ -69,4 +69,8 @@
 
   build            {:doc     "Build app"
                     :depends [clean build.edn]
-                    :task    (shell "npm run build")}}}
+                    :task    (shell "npm run build")}
+
+  deploy           {:doc     "Deploy app"
+                    :depends [clean build.edn]
+                    :task    (shell "npm run deploy")}}}

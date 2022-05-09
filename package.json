@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.223",
+  "version": "0.1.243",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -39,7 +39,8 @@
     "assets:build": "npm run assets:icon:build && npx cross-env NODE_ENV=production postcss src/main/css/index.css --output public/assets/styles/bundle.css --verbose",
     "electron:clean": "rm -rf dist",
     "electron:watch": "npx electron .",
-    "electron:build": "electron-builder build",
+    "electron:build": "electron-builder build --publish never",
+    "electron:deploy": "electron-builder build",
     "shadow:watch": "npx shadow-cljs watch runner downloader renderer test",
     "shadow:build": "npx shadow-cljs release runner downloader renderer",
     "test:build": "npx shadow-cljs compile ci",
@@ -48,9 +49,10 @@
     "repl": "concurrently --kill-others --names \"assets,shadow\" \"npm run assets:watch\" \"npm run shadow:watch\"",
     "test": "npm run assets:build && npm run test:build && npm run test:run",
     "build": "npm run shadow:build && npm run assets:build && npm run electron:build",
+    "deploy": "npm run shadow:build && npm run assets:build && npm run electron:deploy",
     "outdated": "clojure -M:nop:outdated & npx ncu",
     "outdated:upgrade": "clojure -M:nop:outdated:outdated/upgrade & npx ncu -u && npm i",
-    "setup": "npm i -g electron-builder electron-icon-builder && npm i"
+    "setup": "npm i -g electron-builder electron-icon-builder electron-osx-sign && npm i"
   },
   "devDependencies": {
     "asar": "^3.1.0",
@@ -87,6 +89,7 @@
   "build": {
     "appId": "io.lazy-cat.metaverse",
     "productName": "metaverse",
+    "copyright": "Copyright © 2022 lazy-cat.io",
     "icon": "public/assets/icons/mac/icon.icns",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
@@ -98,7 +101,9 @@
       "buildResources": "public/assets",
       "output": "dist"
     },
-    "publish": null,
+    "publish": [
+      "github"
+    ],
     "protocols": {
       "name": "metaverse",
       "schemes": [
@@ -107,7 +112,6 @@
     },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "identity": null,
       "target": {
         "target": "default",
         "arch": [
@@ -115,11 +119,7 @@
           "x64"
         ]
       },
-      "type": "distribution",
-      "hardenedRuntime": true,
-      "entitlements": "assets/entitlements.mac.plist",
-      "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
+      "type": "distribution"
     },
     "dmg": {
       "contents": [
