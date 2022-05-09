@@ -6,10 +6,12 @@
               ipcRenderer   ipcRenderer
               Menu          menu
               Tray          tray}]
-    ["electron-store" :as store]))
+    ["electron-store" :as store]
+    ["electron-updater" :refer [autoUpdater]]))
 
 
 (def ^{:tag js/electron.app} App app)
+(def ^{:tag js/electron.autoUpdater} AutoUpdater autoUpdater)
 (def ^{:tag js/electron.BrowserWindow} BrowserWindow browserWindow)
 (def ^{:tag js/electron.contextBridge} ContextBridge contextBridge)
 (def ^{:tag js/electron.crashReporter} CrashReporter crashReporter)
