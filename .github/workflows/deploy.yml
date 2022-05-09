@@ -1,0 +1,163 @@
+name: deploy
+
+on:
+  release:
+    types:
+      - prereleased
+      - published
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup clojure
+        uses: DeLaGuardo/setup-clojure@5.1
+        with:
+          cli: latest
+          bb: latest
+
+      - name: Setup clj-kondo
+        uses: DeLaGuardo/setup-clj-kondo@master
+        with:
+          version: '2022.04.25'
+
+      - name: Setup cljstyle
+        uses: just-sultanov/setup-cljstyle@v1
+        with:
+          version: '0.15.0'
+
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.clojure
+            ~/.cpcache
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Run linters
+        run: bb lint
+
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup openjdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Setup clojure
+        uses: DeLaGuardo/setup-clojure@5.1
+        with:
+          cli: latest
+          bb: latest
+
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.clojure
+            ~/.cpcache
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Setup deps
+        run: bb setup
+
+      - name: Run tests
+        run: bb test
+
+
+  deploy:
+    runs-on: ${{ matrix.os }}
+    needs: test
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup environment variables
+        run: >-
+          echo 'METAVERSE_SENTRY_DSN=${{ secrets.METAVERSE_SENTRY_DSN }}' >> $GITHUB_ENV;
+          echo 'METAVERSE_SUPABASE_URL=${{ secrets.METAVERSE_SUPABASE_URL }}' >> $GITHUB_ENV;
+          echo 'METAVERSE_SUPABASE_PUBLIC_KEY=${{ secrets.METAVERSE_SUPABASE_PUBLIC_KEY }}' >> $GITHUB_ENV;
+          echo 'CSC_LINK=${{ secrets.CSC_LINK }}' >> $GITHUB_ENV;
+          echo 'CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}' >> $GITHUB_ENV;
+          echo 'CSC_IDENTITY_AUTO_DISCOVERY=${{ secrets.CSC_IDENTITY_AUTO_DISCOVERY }}' >> $GITHUB_ENV;
+          echo 'GH_TOKEN=${{ secrets.GH_TOKEN }}' >> $GITHUB_ENV;
+
+      - name: Setup openjdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Setup clojure
+        uses: DeLaGuardo/setup-clojure@5.1
+        with:
+          cli: latest
+          bb: latest
+
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.clojure
+            ~/.cpcache
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            ${{ runner.os }}-deps-
+
+      - name: Setup deps
+        run: bb setup
+
+      - name: Show version
+        run: bb version
+
+      - name: Show project info
+        run: bb project
+
+      - name: Run deploy app
+        run: bb deploy
