@@ -3,13 +3,11 @@
     [clojure.string :as str]
     [metaverse.common.logger :as log :include-macros true]
     [metaverse.common.supabase :as supabase]
-    [metaverse.common.utils.bean :as b]
     [metaverse.common.utils.transit :as t]
     [metaverse.runner.api :as api]
     [metaverse.runner.api.auth]
     [metaverse.runner.config :as config]
     [metaverse.runner.electron.app :as app]
-    [metaverse.runner.electron.auto-updater :as auto-updater]
     [metaverse.runner.electron.ipc-main :as ipc-main]
     [metaverse.runner.electron.menu :as menu]
     [metaverse.runner.electron.tray :as tray]
@@ -89,35 +87,6 @@
     (.send web-contents "dispatch" (t/write event))))
 
 
-(defn checking-for-update-handler
-  []
-  (dispatch (r/as-success [:auto-updater/checking-for-update])))
-
-
-(defn update-available-handler
-  [info]
-  (dispatch (r/as-found [:auto-updater/update-available (b/bean info)])))
-
-
-(defn update-not-available-handler
-  [info]
-  (dispatch (r/as-unavailable [:auto-updater/update-not-available (b/bean info)])))
-
-
-(defn error-handler
-  [error]
-  (dispatch (r/as-error [:auto-updater/error (b/bean error)])))
-
-
-(defn download-progress-handler
-  [progress]
-  (dispatch (r/as-success [:auto-updater/download-progress (b/bean progress)])))
-
-
-(defn update-downloaded-handler
-  [info]
-  (dispatch (r/as-success [:auto-updater/update-downloaded (b/bean info)])))
-
 
 ;;
 ;; Initializers
@@ -167,8 +136,7 @@
     (main.window/load-app window)
     (window/on "closed" window closed-handler)
     (window/on "ready-to-show" window (ready-to-show-handler window tray))
-    (tray/on "click" tray (tray-click-handler window))
-    (auto-updater/check-for-updates-and-notify)))
+    (tray/on "click" tray (tray-click-handler window))))
 
 
 
@@ -185,12 +153,6 @@
   (app/on "activate" activate-handler)
   (app/on "open-url" open-url-handler)
   (app/on "window-all-closed" window-all-closed-handler)
-  (auto-updater/on "checking-for-update" checking-for-update-handler)
-  (auto-updater/on "update-available" update-available-handler)
-  (auto-updater/on "update-not-available" update-not-available-handler)
-  (auto-updater/on "error" error-handler)
-  (auto-updater/on "download-progress" download-progress-handler)
-  (auto-updater/on "update-downloaded" update-downloaded-handler)
   (ipc-main/remove-all-listeners!)
   (ipc-main/handle "invoke" invoke-handler)
   (ipc-main/on "send" send-handler))

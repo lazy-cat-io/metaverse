@@ -1,7 +1,6 @@
 (ns metaverse.renderer.api
   (:require
     [clojure.string :as str]
-    [metaverse.common.logger :as log :include-macros true]
     [metaverse.common.utils.transit :as t]
     [re-frame.core :as rf]
     [tenet.response :as r]))
@@ -52,51 +51,3 @@
       {}
       {:navigation/redirect {:to     (prepare-url url)
                              :router (get-in db [:navigation :router])}})))
-
-
-(rf/reg-event-fx
-  :auto-updater/checking-for-update
-  (fn [_ _]
-    ;; as-success
-    (log/info :auto-updater/checking-for-update nil)
-    {}))
-
-
-(rf/reg-event-fx
-  :auto-updater/update-available
-  (fn [_ [_ info]]
-    ;; as-found
-    (log/info :auto-updater/checking-for-update info)
-    {}))
-
-
-(rf/reg-event-fx
-  :auto-updater/update-not-available
-  (fn [_ [_ info]]
-    ;; as-unavailable
-    (log/info :auto-updater/update-not-available info)
-    {}))
-
-
-(rf/reg-event-fx
-  :auto-updater/error
-  (fn [_ [_ error]]
-    ;; as-error
-    (log/info :auto-updater/error error)
-    {}))
-
-
-(rf/reg-event-fx
-  :auto-updater/download-progress
-  (fn [_ [_ progress]]
-    ;; as-success
-    (log/info :auto-updater/download-progress progress)
-    {}))
-
-
-(rf/reg-event-fx
-  :auto-updater/update-downloaded
-  (fn [_ [_ info]]
-    ;; as-success
-    (log/info :auto-updater/update-downloaded info)
-    {}))
