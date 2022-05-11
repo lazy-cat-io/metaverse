@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.255",
+  "version": "0.1.261",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -76,6 +76,7 @@
     "tailwindcss": "^3.0.24"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@sentry/electron": "^3.0.7",
     "@sentry/node": "^6.19.7",
