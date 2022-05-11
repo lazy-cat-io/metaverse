@@ -28,8 +28,8 @@
 ;;
 
 (defn activate-handler
-  [_event has-visible-windows?]
-  (when-not has-visible-windows?
+  [_event _has-visible-windows?]
+  (when (zero? (count (window/get-all-windows)))
     (mount)))
 
 
