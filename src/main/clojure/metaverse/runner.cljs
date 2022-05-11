@@ -132,6 +132,7 @@
     (setup-global-shortcuts! window)
     (tray/set-tooltip tray config/title)
     (menu/set-application-menu menu)
+    (main.window/hide-traffic-lights! window)
     (main.window/set-instance! window)
     (main.window/load-app window)
     (window/on "closed" window closed-handler)

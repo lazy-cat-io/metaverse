@@ -85,6 +85,11 @@
   (.. window -webContents (toggleDevTools opts)))
 
 
+(defn set-window-button-visibility!
+  [^js/electron.BrowserWindow window visibility]
+  (.setWindowButtonVisibility window visibility))
+
+
 (defn browser-window
   [opts]
   (electron/BrowserWindow. (clj->js opts)))

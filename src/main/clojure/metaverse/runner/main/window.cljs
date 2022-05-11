@@ -47,6 +47,12 @@
      :width  width}))
 
 
+(defn hide-traffic-lights!
+  [window]
+  (when platform/mac-os?
+    (window/set-window-button-visibility! window false)))
+
+
 (defn build-browser-window-options
   []
   {:alwaysOnTop     config/always-on-top?
