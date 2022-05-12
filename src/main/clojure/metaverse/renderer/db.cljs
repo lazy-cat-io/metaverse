@@ -69,7 +69,7 @@
 
 ;; Theme
 
-(defn previous-theme
+(defn toggle-theme
   [theme]
   (case theme
     "light" "dark"
@@ -79,12 +79,12 @@
 
 (rf/reg-fx
   :app/set-theme
-  (fn-traced [theme]
-    (let [previous (previous-theme theme)]
-      (when previous
-        (.remove (.. js/document -documentElement -classList) (name previous)))
-      (when theme
-        (.add (.. js/document -documentElement -classList) (name theme))))))
+  (fn-traced [next-theme]
+    (let [previous-theme (toggle-theme next-theme)]
+      (when previous-theme
+        (.remove (.. js/document -documentElement -classList) (name previous-theme)))
+      (when next-theme
+        (.add (.. js/document -documentElement -classList) (name next-theme))))))
 
 
 (rf/reg-event-fx
@@ -95,7 +95,16 @@
      :local-storage/set-item [:metaverse/theme theme]}))
 
 
+(rf/reg-event-fx
+  :app/toggle-theme
+  (fn-traced [{db :db} _]
+    (let [current-theme (get-in db [:app :theme])
+          next-theme    (toggle-theme current-theme)]
+      {:dispatch [:app/set-theme next-theme]})))
+
+
 (rf/reg-sub
   :app/theme
   (fn [db]
-    (get-in db [:app :theme])))
+    (get-in db [:app :theme] system-theme)))
+
