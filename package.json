@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.261",
+  "version": "0.1.264",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -50,8 +50,8 @@
     "test": "npm run assets:build && npm run test:build && npm run test:run",
     "build": "npm run shadow:build && npm run assets:build && npm run electron:build",
     "deploy": "npm run shadow:build && npm run assets:build && npm run electron:deploy",
-    "outdated": "clojure -M:nop:outdated & npx ncu",
-    "outdated:upgrade": "clojure -M:nop:outdated:outdated/upgrade & npx ncu -u && npm i",
+    "outdated": "clojure -M:nop:outdated; npx ncu",
+    "outdated:upgrade": "clojure -M:nop:outdated:outdated/upgrade; npx ncu -u && npm i",
     "setup": "npm i -g electron-builder && npm i"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.7",
-    "electron": "^18.2.0",
+    "electron": "^18.2.2",
     "electron-builder": "^23.0.3",
     "electron-notarize": "^1.2.1",
     "highlight.js": "11.5.1",
@@ -86,7 +86,7 @@
     "feed-reader": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "undici": "^5.1.1"
+    "undici": "^5.2.0"
   },
   "build": {
     "appId": "io.lazy-cat.metaverse",
