@@ -55,24 +55,23 @@
 
 (defn build-browser-window-options
   []
-  {:alwaysOnTop     config/always-on-top?
-   :center          config/center?
-   :closable        config/closable?
-   :devTools        config/devtools?
-   :frame           config/frame?
-   :fullscreenable  config/full-screenable?
-   :height          config/height
-   :maximizable     config/maximizable?
-   :minimizable     config/minimizable?
-   :movable         config/movable?
-   :resizable       config/resizable?
-   :show            config/show?
-   :title           config/title
-   :titleBarOverlay config/title-bar-overlay?
-   :titleBarStyle   config/title-bar-style
-   :useContentSize  config/use-content-size?
-   :width           config/width
-   :webPreferences  {:preload config/preload-file}})
+  {:alwaysOnTop    config/always-on-top?
+   :center         config/center?
+   :closable       config/closable?
+   :devTools       config/devtools?
+   :frame          config/frame?
+   :fullscreenable config/full-screenable?
+   :height         config/height
+   :maximizable    config/maximizable?
+   :minimizable    config/minimizable?
+   :movable        config/movable?
+   :resizable      config/resizable?
+   :show           config/show?
+   :title          config/title
+   :titleBarStyle  config/title-bar-style
+   :useContentSize config/use-content-size?
+   :width          config/width
+   :webPreferences {:preload config/preload-file}})
 
 
 (defn create-window
