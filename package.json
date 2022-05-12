@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.264",
+  "version": "0.1.267",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -60,7 +60,7 @@
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.7",
-    "electron": "^18.2.2",
+    "electron": "^18.2.3",
     "electron-builder": "^23.0.3",
     "electron-notarize": "^1.2.1",
     "highlight.js": "11.5.1",
