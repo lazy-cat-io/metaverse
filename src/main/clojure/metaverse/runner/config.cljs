@@ -30,8 +30,8 @@
 ;; Window options
 ;;
 
-(def height 800)
-(def width 600)
+(def height 900)
+(def width 1200)
 
 (def always-on-top? false)
 (def center? false)
@@ -43,9 +43,9 @@
 (def minimizable? true)
 (def movable? true)
 (def resizable? true)
-(def show? false)
+(def show? true)
 (def title env/product-name)
-(def title-bar-overlay? false)
+(def title-bar-overlay? true)
 (def title-bar-style :hidden)
 (def use-content-size? true)
 
