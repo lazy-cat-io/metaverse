@@ -1,5 +1,60 @@
 image:https://img.shields.io/github/license/lazy-cat-io/metaverse?label=license[license,link=license]
+image:https://img.shields.io/github/v/release/lazy-cat-io/metaverse.svg[https://github.com/lazy-cat-io/metaverse/releases]
+
+image:https://github.com/lazy-cat-io/metaverse/actions/workflows/build.yml/badge.svg[build,https://github.com/lazy-cat-io/metaverse/actions/workflows/build.yml]
+image:https://github.com/lazy-cat-io/metaverse/actions/workflows/deploy.yml/badge.svg[deploy,https://github.com/lazy-cat-io/metaverse/actions/workflows/deploy.yml]
 
 image:public/assets/images/logotype.black.svg[logotype,400]
 
 '''
+
+The Metaverse of Clojurians.
+
+== Introduction
+
+Don't spend your time searching for information.
+Be aware of all the news and events in the Clojure ecosystem — one application - many sources of information.
+
+== Installation
+
+Download the application with the required architecture from the https://github.com/lazy-cat-io/metaverse/releases[releases] page and just install it.
+
+== Changelog
+
+See link:changelog.adoc[changelog].
+
+== Roadmap
+
+*May 2022*
+
+- [ ] Add a feature for publishing/subscribing to Clojure community news (RSS)
+- [ ] Add a feature for publishing vacancies and job opportunities
+- [ ] Investigate the problem with auto-updates
+
+*June 2022*
+
+- [ ] Add a build for Linux and Windows
+- [ ] Add integration with GitHub (projects, trends)
+- [ ] Add integration with Clojars (projects, statistics)
+- [ ] Add integration with Clojuredocs (docs, snippets)
+
+*July 2022*
+
+- [ ] Add integration with Clojurians Slack (`#announcement` and `#releases` channels)
+- [ ] Add a feature for generating projects from templates like https://start.spring.io/[Spring Initializr]
+- [ ] Add integration with https://github.com/clojure-garden/clojure-garden[Clojure Garden] (library rank, statistics)
+- [ ] Add integration with Twitter
+
+*Optional:*
+
+- [ ] Add a common API for i18n
+- [ ] Add the ability to install application using homebrew
+- [ ] If the community is interested in the project will make a web and mobile version of the application
+
+== Core team
+
+- https://github.com/just-sultanov[Ilshat Sultanov]
+
+== License
+
+link:license[Copyright © 2022 lazy-cat.io]
