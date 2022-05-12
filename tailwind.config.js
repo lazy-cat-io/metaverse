@@ -5,9 +5,7 @@ module.exports = {
       : ["./public/**/*.html", "./public/js/renderer.js", "./public/js/cljs-runtime/*.js"],
   theme: {
     extend: {
-      backgroundImage: {
-        logotype: "url('/assets/images/logotype.black.svg')",
-      },
+      backgroundImage: {},
     },
   },
   darkMode: "class",
