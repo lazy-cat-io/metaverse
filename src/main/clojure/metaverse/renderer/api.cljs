@@ -33,6 +33,12 @@
     (.. js/window -bridge (send (t/write event)))))
 
 
+(rf/reg-event-fx
+  :api/send
+  (fn [_ [_ event]]
+    {:api/send event}))
+
+
 ;; TODO: [2022-05-07, ilshat@sultanov.team] Check the callback URL of other OAuth providers
 ;; github: metaverse://app/oauth/github/callback#access_token=123...
 
