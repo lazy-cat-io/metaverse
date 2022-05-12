@@ -78,6 +78,10 @@
     @apply bg-gray-100 dark:bg-gray-600;
   }
 
+  *:focus {
+   @apply outline-0;
+  }
+
   /*.page-wrapper {*/
   /*  @apply w-screen h-screen p-2;*/
   /*}*/
