@@ -1,11 +1,4 @@
-(ns metaverse.renderer.components
-  (:require
-    [reagent.core :as r]))
-
-
-(defn logotype
-  []
-  [:div.col-span-full.flex.justify-end.items-center.mt-1.h-3.bg-logotype.bg-no-repeat.bg-right])
+(ns metaverse.renderer.components)
 
 
 (defn icon-spinner
@@ -18,15 +11,15 @@
    [:div.flex.justify-center.justify-items-center.content-center.items-center
     [icon-spinner]])
   ([text]
-   [:div.flex.justify-center.justify-items-center.content-center.items-center
+   [:div.flex.justify-center.justify-items-center.content-center.items-center.gap-2
     [icon-spinner]
-    [:span.mx-2.text-xl.font-bold.text-gray-600.dark:text-gray-100.brand-font-family text]]))
+    [:span.text-gray-600.dark:text-gray-100 text]]))
 
 
 (defn loader
   [{:keys [state idle-icon loading-icon ready-icon failed-icon]}]
   (case state
-    :loading (r/as-element (or loading-icon icon-spinner))
-    :ready (r/as-element (or ready-icon [:i.fa-solid.fa-check.text-gray-600.dark:text-gray-100.animate-pulse]))
-    :failed (r/as-element (or failed-icon [:i.fa-solid.fa-xmark.text-gray-600.dark:text-gray-100.animate-pulse]))
-    :idle (r/as-element idle-icon)))
+    :loading (or loading-icon icon-spinner)
+    :ready (or ready-icon [:i.fa-solid.fa-check.text-gray-600.dark:text-gray-100.animate-pulse])
+    :failed (or failed-icon [:i.fa-solid.fa-xmark.text-gray-600.dark:text-gray-100.animate-pulse])
+    :idle idle-icon))

@@ -1,7 +1,8 @@
 (ns metaverse.renderer.pages.root
   (:require
+    [headless.ui :as ui]
+    [heroicons.outline :as icons.outline]
     [metaverse.renderer.components :as components]
-    [metaverse.renderer.components.heroicons.outline :as icons]
     [metaverse.renderer.pages.docs :as docs]
     [metaverse.renderer.pages.home :as home]
     [metaverse.renderer.pages.initializer :as initializer]
@@ -14,75 +15,107 @@
     [re-frame.core :as rf]))
 
 
-(defn get-icon
-  [route-name]
-  (case route-name
-    :page/home icons/home-icon
-    :page/news icons/rss-icon
-    :page/projects icons/fire-icon
-    :page/jobs icons/briefcase-icon
-    :page/docs icons/book-open-icon
-    :page/profile icons/user-icon
-    :page/initializer icons/cube-icon
-    nil))
-
-
-(defn search
+(defn logotype
   []
-  [:div.search
-   [:input.search-input {:type "text" :default-value "Search..."}]])
-
-
-(defn navbar-item
-  [route-name {:keys [href]}]
-  [:a.h-10.w-10.p-1.rounded-lg.text-gray-600.hover:text-gray-100.hover:bg-gray-600.dark:text-gray-100.dark:hover:text-gray-100.dark:hover:bg-gray-700
-   {:class    (if (= route-name href) "text-gray-100 bg-gray-600 dark:text-gray-100 dark:bg-gray-700" "")
-    :href     @(rf/subscribe [:href href])
-    :on-click #(rf/dispatch [:app/set-theme (rand-nth ["dark" "light"])])}
-   [:> (get-icon href)]])
+  (let [theme @(rf/subscribe [:app/theme])
+        src   (case theme
+                "light" "/assets/images/logotype.black.svg"
+                "/assets/images/logotype.svg")]
+    [:div.flex.flex-1.justify-start.items-center.h-12.p-2.space-x-8
+     [:a {:href @(rf/subscribe [:href :page/home])}
+      [:span.sr-only "metaverse"]
+      [:img.h-12.w-36.min-w-36 {:src src :alt "logotype"}]]]))
 
 
 (def navbar-items
-  {:page/home        {:header "Home", :href :page/home, :column :left}
-   :page/news        {:header "News", :href :page/news, :column :left}
-   :page/projects    {:header "Projects", :href :page/projects, :column :left}
-   :page/jobs        {:header "Jobs", :href :page/jobs, :column :left}
-   :page/docs        {:header "Docs", :href :page/docs, :column :right}
-   :page/initializer {:header "Initializer", :href :page/initializer, :column :right}
-   :page/profile     {:header "Profile", :href :page/profile, :column :right}})
+  [{:label "Home" :href :page/home :icon icons.outline/home-icon}
+   {:label "News" :href :page/news :icon icons.outline/rss-icon}
+   {:label "Projects" :href :page/projects :icon icons.outline/fire-icon}
+   {:label "Jobs" :href :page/jobs :icon icons.outline/briefcase-icon}
+   {:label "Docs" :href :page/docs :icon icons.outline/book-open-icon}
+   {:label "Initializer" :href :page/initializer :icon icons.outline/cube-icon}])
+
+
+(defn navbar-links
+  []
+  (let [route-name @(rf/subscribe [:navigation/route-name])]
+    (into [:div.flex.flex-1.items-center.h-12.space-x-8.p-2]
+          (for [{:keys [href icon label]} navbar-items]
+            (let [active? (= route-name href)]
+              [:a.flex.items-center.gap-2.text-base.font-medium.hover:text-gray-900.dark:hover:text-gray-100.h-24
+               {:href  @(rf/subscribe [:href href])
+                :class (if active? "text-gray-900 dark:text-white" "text-gray-500 dark:text-gray-400")}
+               [icon {:class "h-6"}]
+               [:span label]])))))
+
+
+(defn notifications
+  []
+  [:button {:type "button"}
+   [:span.sr-only "View notifications"]
+   [icons.outline/bell-icon {:class "h-6 w-6 text-gray-500" :aria-hidden "true"}]])
+
+
+(defn toggle-theme
+  []
+  [:button {:type "button" :on-click #(rf/dispatch [:app/toggle-theme])}
+   [:span.sr-only "Dark mode"]
+   [icons.outline/sparkles-icon {:class "h-6 w-6 text-gray-500 dark:text-gray-400" :aria-hidden "true"}]])
+
+
+(defn user-menu
+  []
+  (if-some [{{:keys [avatar_url]} :user_metadata} @(rf/subscribe [:user])]
+    [:div
+     [:a {:href @(rf/subscribe [:href :page/profile])}
+      (if avatar_url
+        [:img.w-12.h-12.rounded-full {:src avatar_url}]
+        [icons.outline/user-icon {:class "w-6 h-6 text-gray-500 dark:text-gray-400"}])]]
+    [:a.ml-8.whitespace-nowrap.inline-flex.items-center.justify-center.px-4.py-2.border.border-transparent.rounded-md.shadow-sm.text-base.font-medium.text-white.bg-violet-600.hover:bg-violet-700
+     {:href  @(rf/subscribe [:href :page/sign-in])}
+     [:span "Sign in"]]))
+
+
+(defn navbar-controls
+  []
+  [:div.flex.flex-1.justify-end.items-center.space-x-5
+   [:div.flex.space-x-5
+    [notifications]
+    [toggle-theme]
+    [user-menu]]])
 
 
 (defn navbar
-  [route-name]
-  (let [groups (group-by :column (vals navbar-items))]
-    [:div.col-span-full.mt-2
-     [:div.grid.grid-cols-2.gap-2
-      (into [:div.flex.justify-start.gap-2]
-            (for [item (:left groups)]
-              [navbar-item route-name item]))
-      (into [:div.h-12.flex.justify-end.gap-2]
-            (for [item (:right groups)]
-              [navbar-item route-name item]))]]))
+  []
+  [:div.max-w-8xl.mx-auto.px-3.bg-white.dark:bg-gray-800.shadow-md
+   [:div.flex.justify-between.items-center.p-6.space-x-10
+    [logotype]
+    [navbar-links]
+    [navbar-controls]]])
+
+
+(defn main
+  []
+  (let [route-name @(rf/subscribe [:navigation/route-name])]
+    [:main.max-w-7xl.mx-auto.p-10
+     (case route-name
+       :page/home [home/page]
+       :page/news [news/page]
+       :page/projects [projects/page]
+       :page/jobs [jobs/page]
+       :page/docs [docs/page]
+       :page/profile [profile/page]
+       :page/initializer [initializer/page]
+       (:page/sign-in :page/oauth.provider.callback) [sign-in/page]
+       [not-found/page])]))
 
 
 (defn page
   "Root page."
   []
-  (let [route-name @(rf/subscribe [:navigation/route-name])]
-    [:div.w-screen.h-screen.p-2
-     [components/logotype]
-     [navbar route-name]
-     (if-not @(rf/subscribe [:app/initialized?])
-       [:div.w-full.h-full.mt-10
-        [components/spinner "Loading..."]]
-       [:div.w-full.h-full.mt-10
-        (case route-name
-          :page/home [home/page]
-          :page/news [news/page]
-          :page/projects [projects/page]
-          :page/jobs [jobs/page]
-          :page/docs [docs/page]
-          :page/profile [profile/page]
-          :page/initializer [initializer/page]
-          (:page/sign-in :page/oauth.provider.callback) [sign-in/page]
-          [not-found/page])])]))
+  (if-not @(rf/subscribe [:app/initialized?])
+    [:div.w-screen.h-screen.flex.justify-center.justify-items-center.content-center.items-center.gap-2
+     [components/spinner "Loading..."]]
+    [ui/popover {:class "relative h-screen"}
+     [navbar]
+     [main]]))
