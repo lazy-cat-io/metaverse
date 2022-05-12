@@ -1,7 +1,14 @@
 == Changelog
 
-=== Unreleased
+=== Released
 
-==== 0.0.X (2022-02-XX)
+==== v0.1.282 (2022-05-13)
 
-TBD
+The first official alpha release
+
+===== Added
+
+- Wrappers for `supabase`, `headlessui`, `heroicons`
+- Communication between runner and renderer
+- A basic API and design
+- Allow users to sign in using GitHub
