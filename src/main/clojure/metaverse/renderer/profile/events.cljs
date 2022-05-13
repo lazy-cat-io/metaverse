@@ -47,7 +47,7 @@
   (fn [{db :db} _]
     {:db                         (dissoc db :user)
      :api/send                   [:auth/sign-out]
-     :navigation/redirect        {:route-name :page/sign-in}
+     :navigation/redirect        {:route-name :page/home}
      :local-storage/remove-items [:metaverse/user :metaverse/auth]}))
 
 
