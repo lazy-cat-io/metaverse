@@ -66,13 +66,28 @@
 (defn user-menu
   []
   (if-some [{{:keys [avatar_url]} :user_metadata} @(rf/subscribe [:user])]
-    [:div
-     [:a {:href @(rf/subscribe [:href :page/profile])}
-      (if avatar_url
-        [:img.w-12.h-12.rounded-full {:src avatar_url}]
-        [icons.outline/user-icon {:class "w-6 h-6 text-gray-500 dark:text-gray-400"}])]]
+    [ui/menu {:as "div" :class "ml-3 relative"}
+     [ui/menu-button {:class "max-w-xs rounded-full flex items-center text-sm"}
+      [:span.sr-only "Open user menu"]
+      [:a {:href "#"}
+       (if avatar_url
+         [:img.w-12.h-12.rounded-full {:src avatar_url}]
+         [icons.outline/user-icon {:class "w-6 h-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"}])]]
+     [ui/transition {:enter     "transition ease-out duration-100"
+                     :enterFrom "transform opacity-0 scale-95"
+                     :enterTo   "transform opacity-100 scale-100"
+                     :leave     "transition ease-in duration-75"
+                     :leaveFrom "transform opacity-100 scale-100"
+                     :leaveTo   "transform opacity-0 scale-95"}
+      (into [ui/menu-items {:class "origin-top-right absolute right-0 mt-2 w-48 border-solid border border-1 border-gray-200 dark:border-gray-800 rounded-md shadow-lg py-1 bg-white dark:bg-gray-700"}]
+            (for [{:keys [href icon label]} user-menu-items]
+              [ui/menu-item {:key :page/profile}
+               [:a.flex.gap-2.items-center.px-4.py-2.text-sm.text-gray-500.dark:text-gray-400.hover:text-gray-900.dark:hover:text-gray-100
+                {:href @(rf/subscribe [:href href])}
+                [icon {:class "w-6 h-6"}]
+                [:span label]]]))]]
     [:a.ml-8.whitespace-nowrap.inline-flex.items-center.justify-center.px-4.py-2.border.border-transparent.rounded-md.shadow-sm.text-base.font-medium.text-white.bg-violet-600.hover:bg-violet-700
-     {:href  @(rf/subscribe [:href :page/sign-in])}
+     {:href @(rf/subscribe [:href :page/sign-in])}
      [:span "Sign in"]]))
 
 
