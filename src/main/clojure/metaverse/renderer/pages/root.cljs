@@ -44,7 +44,7 @@
             (let [active? (= route-name href)]
               [:a.flex.items-center.gap-2.text-base.font-medium.hover:text-gray-900.dark:hover:text-gray-100.h-24
                {:href  @(rf/subscribe [:href href])
-                :class (if active? "text-gray-900 dark:text-white" "text-gray-500 dark:text-gray-400")}
+                :class (if active? "text-gray-700 dark:text-white" "text-gray-500 dark:text-gray-400")}
                [icon {:class "h-6"}]
                [:span label]])))))
 
@@ -53,14 +53,19 @@
   []
   [:button {:type "button"}
    [:span.sr-only "View notifications"]
-   [icons.outline/bell-icon {:class "h-6 w-6 text-gray-500" :aria-hidden "true"}]])
+   [icons.outline/bell-icon {:class "h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" :aria-hidden "true"}]])
 
 
 (defn toggle-theme
   []
   [:button {:type "button" :on-click #(rf/dispatch [:app/toggle-theme])}
    [:span.sr-only "Dark mode"]
-   [icons.outline/sparkles-icon {:class "h-6 w-6 text-gray-500 dark:text-gray-400" :aria-hidden "true"}]])
+   [icons.outline/sparkles-icon {:class "h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" :aria-hidden "true"}]])
+
+
+(def user-menu-items
+  [{:label "Profile" :href :page/profile :icon icons.outline/user-circle-icon}
+   {:label "Sign out" :href :page/sign-out :icon icons.outline/logout-icon}])
 
 
 (defn user-menu
@@ -131,6 +136,6 @@
   (if-not @(rf/subscribe [:app/initialized?])
     [:div.w-screen.h-screen.flex.justify-center.justify-items-center.content-center.items-center.gap-2
      [components/spinner "Loading..."]]
-    [ui/popover {:class "relative h-screen"}
+    [:div.relative.h-screen
      [navbar]
      [main]]))
