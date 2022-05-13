@@ -12,8 +12,8 @@
 
 
 (defmulti prepare-parameters
-  (fn [{{:keys [provider]} :path}]
-    provider))
+  (fn [parameters]
+    (get-in parameters [:path :provider])))
 
 
 (defmethod prepare-parameters "github"
@@ -32,6 +32,9 @@
   [""
    ["/" {:name :page/home, :private false}]
    ["/sign-in" {:name :page/sign-in, :private false}]
+   ["/sign-out" {:name        :page/sign-out
+                 :private     true
+                 :controllers [{:start #(rf/dispatch [:auth/sign-out])}]}]
    ["/news" {:name :page/news, :private false}]
    ["/projects" {:name :page/projects, :private false}]
    ["/jobs" {:name :page/jobs, :private false}]
