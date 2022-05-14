@@ -2,6 +2,12 @@
 
 === Released
 
+==== v0.1.297 (2022-05-14)
+
+===== Added
+
+- Profile page
+
 ==== v0.1.282 (2022-05-13)
 
 The first official alpha release
