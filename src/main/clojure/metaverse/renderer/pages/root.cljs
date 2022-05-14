@@ -86,7 +86,7 @@
                      :leaveTo   "transform opacity-0 scale-95"}
       (into [ui/menu-items {:class "origin-top-right absolute right-0 mt-2 w-48 border-solid border border-1 border-gray-200 dark:border-gray-800 rounded-md shadow-lg py-1 bg-white dark:bg-gray-700"}]
             (for [{:keys [href icon label]} user-menu-items]
-              [ui/menu-item {:key :page/profile}
+              [ui/menu-item {:key href}
                [:a.flex.gap-2.items-center.px-4.py-2.text-sm.text-gray-500.dark:text-gray-400.hover:text-gray-900.dark:hover:text-gray-100
                 {:href @(rf/subscribe [:href href])}
                 [icon {:class "w-6 h-6"}]
