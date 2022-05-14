@@ -64,7 +64,7 @@
 
 
 (def user-menu-items
-  [{:label "Profile" :href :page/profile :icon icons.outline/user-circle-icon}
+  [{:label "Profile" :href :page/profile :icon icons.outline/user-icon}
    {:label "Sign out" :href :page/sign-out :icon icons.outline/logout-icon}])
 
 
