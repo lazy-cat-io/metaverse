@@ -11,11 +11,18 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout [pull request]
         uses: actions/checkout@v3
+        if: github.event_name == 'pull_request'
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Checkout [push]
+        uses: actions/checkout@v3
+        if: github.event_name == 'push'
+        with:
+          fetch-depth: 0
 
       - name: Setup clojure
         uses: DeLaGuardo/setup-clojure@5.1
@@ -53,11 +60,18 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout [pull request]
         uses: actions/checkout@v3
+        if: github.event_name == 'pull_request'
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Checkout [push]
+        uses: actions/checkout@v3
+        if: github.event_name == 'push'
+        with:
+          fetch-depth: 0
 
       - name: Setup openjdk
         uses: actions/setup-java@v3
@@ -101,11 +115,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - name: Checkout
+      - name: Checkout [pull request]
         uses: actions/checkout@v3
+        if: github.event_name == 'pull_request'
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Checkout [push]
+        uses: actions/checkout@v3
+        if: github.event_name == 'push'
+        with:
+          fetch-depth: 0
 
       - name: Setup environment variables
         run: >-
