@@ -116,18 +116,20 @@
 
 (defn main
   []
-  (let [route-name @(rf/subscribe [:navigation/route-name])]
+  (let [route-name @(rf/subscribe [:navigation/route-name])
+        page       (condp re-matches (str route-name)
+                     #":page/home.*" home/page
+                     #":page/news.*" news/page
+                     #":page/projects.*" projects/page
+                     #":page/jobs.*" jobs/page
+                     #":page/docs.*" docs/page
+                     #":page/profile.*" profile/page
+                     #":page/initializer.*" initializer/page
+                     #":page/sign-in.*" sign-in/page
+                     #":page/oauth.provider.callback" sign-in/page
+                     not-found/page)]
     [:main.max-w-7xl.mx-auto.p-10
-     (case route-name
-       :page/home [home/page]
-       :page/news [news/page]
-       :page/projects [projects/page]
-       :page/jobs [jobs/page]
-       :page/docs [docs/page]
-       :page/profile [profile/page]
-       :page/initializer [initializer/page]
-       (:page/sign-in :page/oauth.provider.callback) [sign-in/page]
-       [not-found/page])]))
+     [page route-name]]))
 
 
 (defn page
