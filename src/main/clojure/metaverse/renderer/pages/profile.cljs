@@ -33,22 +33,22 @@
     [:div
      [:div.flex.flex-row.gap-5
       [:div {:class "py-5"}
-       [:label {:htmlFor "full-name" :class "block text-sm font-medium text-gray-500"}
+       [:label {:htmlFor "full-name" :class "block text-sm font-medium text-gray-500 dark:text-gray-900"}
         "Full name"]
        [:div {:class "mt-1 relative rounded-md shadow-sm"}
         [:input#full-name {:type     "text"
                            :name     "full-name"
-                           :class    "block w-full h-12 pl-7 pr-12 text-gray-700 border border-gray-300 rounded-md"
+                           :class    "block w-full h-12 pl-7 pr-12 text-gray-700 dark:text-gray-800 border border-gray-300 dark:border-gray-600 rounded-md"
                            :value    (:full_name user_metadata)
                            :disabled true}]]]
 
       [:div {:class "py-5"}
-       [:label {:htmlFor "email" :class "block text-sm font-medium text-gray-500"}
+       [:label {:htmlFor "email" :class "block text-sm font-medium text-gray-500 dark:text-gray-900"}
         "Email"]
        [:div {:class "mt-1 relative rounded-md shadow-sm"}
         [:input#email {:type     "text"
                        :name     "full-name"
-                       :class    "block w-full h-12 pl-7 pr-12 text-gray-700 border border-gray-300 rounded-md"
+                       :class    "block w-full h-12 pl-7 pr-12 text-gray-700 dark:text-gray-800 border border-gray-300 dark:border-gray-600 rounded-md"
                        :value    (:email user_metadata)
                        :disabled true}]]]]
      #_[:div
@@ -61,8 +61,8 @@
 
 (defn content
   [route-name]
-  [:div.flex.flex-1.flex-col.bg-white.rounded-md.shadow-md.p-5
-   [:div {:class "flex items-center px-2 pb-4 border-b border-b-1 border-b-gray-200"}
+  [:div.flex.flex-1.flex-col.bg-white.dark:bg-gray-500.rounded-md.shadow-md.p-5
+   [:div {:class "flex items-center px-2 pb-4 border-b border-b-1 border-b-gray-200 dark:border-b-gray-900"}
     [:h2 {:class "text-xl font-bold leading-7 text-gray-900"} (get-in links [route-name :label])]]
    [:div.flex.flex-1.mt-5
     (condp re-matches (str route-name)
