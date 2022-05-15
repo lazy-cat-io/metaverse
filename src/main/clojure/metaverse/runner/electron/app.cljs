@@ -8,6 +8,11 @@
   (.on electron/App event handler))
 
 
+(defn when-ready
+  [handler]
+  (.whenReady electron/App handler))
+
+
 (defn dock-hide
   []
   (.. electron/App -dock (hide)))
