@@ -6,6 +6,7 @@
     [metaverse.common.utils.transit :as t]
     [metaverse.runner.api :as api]
     [metaverse.runner.api.auth]
+    [metaverse.runner.api.news]
     [metaverse.runner.config :as config]
     [metaverse.runner.electron.app :as app]
     [metaverse.runner.electron.ipc-main :as ipc-main]

@@ -78,6 +78,10 @@
   (.select client select))
 
 
+(defn eq
+  [^js client column x]
+  (.eq client column x))
+
 
 ;;
 ;; Auth
@@ -128,16 +132,17 @@
 ;; RSS channel
 ;;
 
-(defn api:rss-channel:get-list
+(defn api:rss-channels:get-list
   []
   (-> @*supabase
-      (from "rss_channel")
-      (select "*, user_profile ( first_name, last_name, middle_name )")
+      (from "rss_channels")
+      (select "*")
+      (eq "status" "public")
       (then+catch)))
 
 
 (comment
-  (-> (api:rss-channel:get-list)
+  (-> (api:rss-channels:get-list)
       (.then (fn [res]
                (log/info :data @res))))
   )
