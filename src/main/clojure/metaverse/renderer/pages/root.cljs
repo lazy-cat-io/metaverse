@@ -137,7 +137,7 @@
   []
   (if-not @(rf/subscribe [:app/initialized?])
     [:div.w-screen.h-screen.flex.justify-center.justify-items-center.content-center.items-center.gap-2
-     [components/spinner "Loading..."]]
+     [components/loading-spinner "Loading..."]]
     [:div.relative.h-screen
      [navbar]
      [main]]))
