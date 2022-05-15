@@ -29,7 +29,7 @@
 
 (def navbar-items
   [{:label "Home" :href :page/home :icon icons.outline/home-icon}
-   {:label "News" :href :page/news :icon icons.outline/rss-icon}
+   {:label "News" :href :page/news :icon icons.outline/newspaper-icon}
    {:label "Projects" :href :page/projects :icon icons.outline/fire-icon}
    {:label "Jobs" :href :page/jobs :icon icons.outline/briefcase-icon}
    {:label "Docs" :href :page/docs :icon icons.outline/book-open-icon}
