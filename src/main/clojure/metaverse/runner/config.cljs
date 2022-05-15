@@ -21,7 +21,7 @@
 
 (def index-url
   (if env/develop?
-    "http://localhost:3000/index.html"
+    "http://localhost:3000"
     (str "file://" root-dir "/index.html")))
 
 

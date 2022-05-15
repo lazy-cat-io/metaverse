@@ -28,8 +28,8 @@
 ;;
 
 (defn activate-handler
-  [_event _has-visible-windows?]
-  (when (zero? (count (window/get-all-windows)))
+  []
+  (when (window/recreate-window?)
     (mount)))
 
 
@@ -42,8 +42,8 @@
 (defn closed-handler
   {:dev/before-load true}
   []
-  (main.window/destroy!)
-  (main.tray/destroy!))
+  (main.tray/destroy!)
+  (main.window/destroy!))
 
 
 (defn ready-to-show-handler
@@ -124,20 +124,21 @@
 (defn mount
   {:dev/after-load true}
   []
-  (let [window (main.window/create-window)
-        menu   (main.menu/create-menu window)
-        tray   (main.tray/create-tray window)]
-    (app/dock-hide)
-    (app/set-as-default-protocol-client "metaverse")
-    (setup-global-shortcuts! window)
-    (tray/set-tooltip tray config/title)
-    (menu/set-application-menu menu)
-    (main.window/hide-traffic-lights! window)
-    (main.window/set-instance! window)
-    (main.window/load-app window)
-    (window/on "closed" window closed-handler)
-    (window/on "ready-to-show" window (ready-to-show-handler window tray))
-    (tray/on "click" tray (tray-click-handler window))))
+  (when (window/recreate-window?)
+    (let [window (main.window/create-window)
+          menu   (main.menu/create-menu window)
+          tray   (main.tray/create-tray window)]
+      (app/dock-hide)
+      (app/set-as-default-protocol-client "metaverse")
+      (setup-global-shortcuts! window)
+      (tray/set-tooltip tray config/title)
+      (menu/set-application-menu menu)
+      (main.window/hide-traffic-lights! window)
+      (main.window/set-instance! window)
+      (main.window/load-app window)
+      (window/on "closed" window closed-handler)
+      (window/on "ready-to-show" window (ready-to-show-handler window tray))
+      (tray/on "click" tray (tray-click-handler window)))))
 
 
 
@@ -150,11 +151,12 @@
   {:export true}
   [& _args]
   (setup!)
-  (app/on "ready" mount)
-  (app/on "activate" activate-handler)
-  (app/on "open-url" open-url-handler)
-  (app/on "window-all-closed" window-all-closed-handler)
-  (ipc-main/remove-all-listeners!)
-  (ipc-main/handle "invoke" invoke-handler)
-  (ipc-main/on "send" send-handler))
-
+  (app/on "ready"
+          (fn []
+            (mount)
+            (app/on "activate" activate-handler)
+            (app/on "open-url" open-url-handler)
+            (app/on "window-all-closed" window-all-closed-handler)
+            (ipc-main/remove-all-listeners!)
+            (ipc-main/handle "invoke" invoke-handler)
+            (ipc-main/on "send" send-handler))))
