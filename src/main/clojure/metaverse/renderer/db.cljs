@@ -1,6 +1,7 @@
 (ns metaverse.renderer.db
   (:require
     [day8.re-frame.tracing :refer-macros [fn-traced]]
+    [metaverse.renderer.news.core]
     [metaverse.renderer.profile.core]
     [re-frame.core :as rf]))
 
