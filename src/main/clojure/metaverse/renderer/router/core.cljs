@@ -32,10 +32,16 @@
   [""
    ["/" {:name :page/home, :private false}]
    ["/sign-in" {:name :page/sign-in, :private false}]
-   ["/sign-out" {:name        :page/sign-out
-                 :private     true
-                 :controllers [{:start #(rf/dispatch [:auth/sign-out])}]}]
-   ["/news" {:name :page/news, :private false}]
+   ["/sign-out"
+    {:name        :page/sign-out
+     :private     true
+     :controllers [{:start #(rf/dispatch [:auth/sign-out])}]}]
+   ["/news"
+    ["/" {:name :page/news, :private false}]
+    ["/rss-channels"
+     {:name        :page/news.rss-channels
+      :private     false
+      :controllers [{:start #(rf/dispatch [:news/rss-channels])}]}]]
    ["/projects" {:name :page/projects, :private false}]
    ["/jobs" {:name :page/jobs, :private false}]
    ["/docs" {:name :page/docs, :private false}]
