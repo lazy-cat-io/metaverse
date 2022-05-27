@@ -25,14 +25,11 @@ See link:changelog.adoc[changelog].
 
 == Roadmap
 
-*May 2022*
+*June 2022*
 
 - [ ] Add a feature for publishing/subscribing to Clojure community news (RSS)
 - [ ] Add a feature for generating projects from templates like https://start.spring.io/[Spring Initializr]
 - [ ] Investigate the problem with auto-updates
-
-*June 2022*
-
 - [ ] Add a build for Linux and Windows
 - [ ] Add integration with GitHub (projects, trends)
 - [ ] Add integration with Clojars (projects, statistics)
