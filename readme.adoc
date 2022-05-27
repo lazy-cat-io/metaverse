@@ -12,8 +12,8 @@ The Metaverse of Clojurians.
 
 == Introduction
 
-Don't spend your time searching for information.
-Be aware of all the news and events in the Clojure ecosystem — one application - many sources of information.
+Don't waste your time searching for information.
+Be aware of all the news and events in the Clojure ecosystem — one system tray application with many sources of information.
 
 == Installation
 
