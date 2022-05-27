@@ -135,7 +135,7 @@ jobs:
           echo 'METAVERSE_SUPABASE_PUBLIC_KEY=${{ secrets.METAVERSE_SUPABASE_PUBLIC_KEY }}' >> $GITHUB_ENV;
           echo 'CSC_LINK=${{ secrets.CSC_LINK }}' >> $GITHUB_ENV;
           echo 'CSC_KEY_PASSWORD=${{ secrets.CSC_KEY_PASSWORD }}' >> $GITHUB_ENV;
-          echo 'CSC_IDENTITY_AUTO_DISCOVERY=${{ secrets.CSC_IDENTITY_AUTO_DISCOVERY }}' >> $GITHUB_ENV;
+          echo 'CSC_IDENTITY_AUTO_DISCOVERY=false' >> $GITHUB_ENV;
           echo 'GH_TOKEN=${{ secrets.GH_TOKEN }}' >> $GITHUB_ENV;
           echo 'APPLE_ID=${{ secrets.APPLE_ID }}' >> $GITHUB_ENV;
           echo 'APPLE_ID_PASSWORD=${{ secrets.APPLE_ID_PASSWORD }}' >> $GITHUB_ENV;
