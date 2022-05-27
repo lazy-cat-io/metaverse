@@ -1,6 +1,6 @@
 {
   "name": "@io.lazy-cat/metaverse",
-  "version": "0.1.306",
+  "version": "0.1.308",
   "description": "The Metaverse of Clojurians",
   "license": "MIT",
   "author": "Ilshat Sultanov <ilshat@sultanov.team>",
@@ -57,26 +57,26 @@
   "devDependencies": {
     "asar": "^3.1.0",
     "autoprefixer": "^10.4.7",
-    "concurrently": "^7.2.0",
+    "concurrently": "^7.2.1",
     "cross-env": "^7.0.3",
-    "cssnano": "^5.1.8",
-    "electron": "^18.2.3",
+    "cssnano": "^5.1.9",
+    "electron": "^19.0.1",
     "electron-builder": "^23.0.3",
     "electron-notarize": "^1.2.1",
     "highlight.js": "11.5.1",
     "karma": "^6.3.20",
     "karma-chrome-launcher": "^3.1.1",
     "karma-cljs-test": "^0.1.0",
-    "npm-check-updates": "^13.0.0",
-    "postcss": "^8.4.13",
+    "npm-check-updates": "^13.0.3",
+    "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
     "prettier": "^2.6.2",
-    "shadow-cljs": "^2.18.0",
+    "shadow-cljs": "^2.19.0",
     "tailwindcss": "^3.0.24"
   },
   "dependencies": {
-    "@headlessui/react": "^1.6.1",
+    "@headlessui/react": "^1.6.3",
     "@heroicons/react": "^1.0.6",
     "@sentry/electron": "^3.0.7",
     "@sentry/node": "^6.19.7",
@@ -86,7 +86,7 @@
     "feed-reader": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "undici": "^5.2.0"
+    "undici": "^5.3.0"
   },
   "build": {
     "appId": "io.lazy-cat.metaverse",
